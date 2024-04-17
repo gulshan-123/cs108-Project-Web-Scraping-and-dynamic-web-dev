@@ -61,6 +61,25 @@ app.get('/search', (req, res) => {
     res.json(results);
 });
 
+app.get('/genre', (req, res) => {
+    let movies = req.movies;
+
+    const genre = req.query.genre.replace(/\b\w/g, function(char) {
+        return char.toUpperCase();
+    });
+    // console.log(genre);
+    const filteredMovies = movies.filter(movie => movie.genre.includes(genre));
+    // console.log(filteredMovies);
+    // find the index of the movie in the movies array for all movies in the filteredMovies array
+    let movieIndex = [];
+    for (let i = 0; i < filteredMovies.length; i++) {
+        movieIndex.push(movies.indexOf(filteredMovies[i]));
+    }
+    // console.log(movieIndex);
+    res.render('genre', { movies: filteredMovies, movieIndex: movieIndex, genre: genre});
+    // res.render('genre', { movies: filteredMovies });
+
+});
 
 app.post('/handleSignup', (req, res) => {
     const { email, password } = req.body;

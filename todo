@@ -1,0 +1,6 @@
+1. Add a rate Movies to te cards
+2. First verify the user if it is logged in using sessions
+3. if it is logged in, then append the some data to the preferences.json
+4. Add a recommended tab to NavBar, where movies similar to these are shown..
+5. the trigger to change the recommendation is the ratings.... 
+6. Filter on the basis of genre
