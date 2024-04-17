@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= movie.Title %>
+    </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/movieDetails.css">
+</head>
+
+<body>
+    <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block"}) %>
+        <div class="card mb-3 m-3 rounded cardOfDetails">
+            <div class="row no-gutters">
+                <div class="col-md-4 mx-auto d-block m-2 rounded align-items-center">
+                    <img src="<%= movie.Image['280w'] %>" class="card-img img-fluid">
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-8 mx-auto d-block">
+                        <div class="card-body">
+                            <a href="https://www.imdb.com/title/<%= movie.imdbID %>"
+                                class="btn btn-primary d-md-none mb-3">Visit IMDB Site</a>
+                            <h5 class="card-title">
+                                <%= movie.Title %>
+                            </h5>
+
+                            <p class="card-text"><strong>Casts:&nbsp;</strong>
+                                <%= movie.Cast.join(', ') %></p>
+                    <p class="card-text"><strong>Director:&nbsp;</strong><%= movie.Director.join(' , ') %></p>
+                    <p class="card-text"><strong>Ratings:&nbsp;</strong><%= movie.Rating[0] %>/10</p>
+                    <p class="card-text"><strong>Genre:&nbsp;</strong><%= movie.genre.join(', ') %> </p>
+                    <p class="card-text"><strong>Year:&nbsp;</strong> <%= movie.Metadata[0] %> | <strong>Duration:&nbsp;</strong><%= movie.Metadata[1] %>&nbsp; | <%= movie.Metadata[2] %></p>
+                    <p class="card-text"><strong>Plot: </strong><%= movie.Info %></p>
+                    <div class="embed-responsive embed-responsive-16by9">
+                    <iframe width="1210" height="480" src="https://www.youtube.com/embed/<%= new URL(movie.Trailer).searchParams.get('v') %>" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;
+                                    picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://www.imdb.com/title/<%= movie.imdbID %>"
+                    class="btn btn-primary position-absolute visit-site-btn d-none d-md-block"
+                    style="top: 10px; right: 10px;">Visit IMDB Site</a>
+
+            </div>
+        </div>
+        </div>
+        <% let numPositiveReviews= Object.keys(positiveReviews).length %>
+        <div class="reviews mt-4">
+            <h2 class="text-center">Positive Reviews</h2>
+            <% for (let i = 0; i < numPositiveReviews; i++) { 
+                let displayClass = i < 3 ? '' : 'd-none';
+            let reviewText = positiveReviews[i].reviews;
+            let shortText = reviewText.length > 100 ? reviewText.substring(0, 100) + '...' : reviewText; 
+            %>
+
+            <figure class="<%= displayClass %>" id="positive-review-<%= i %>">
+                <b><%= positiveReviews[i].title %></b>
+                <blockquote class="blockquote">
+                    <p class="short-text"><%= shortText %></p>
+                    <p class="full-text d-none"><%= reviewText %></p>
+                    <button class="btn btn-link read-more">Read More</button>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    Metacritic user <cite title="username"><%= positiveReviews[i].userNames  %></cite> <strong>10/10</strong>
+                </figcaption>
+            </figure>
+            <% } %>
+            </div><div class="text-center m-3"><button class="btn btn-primary" onclick="showAllReviews('positive', <%= numPositiveReviews %>)">Read All Positive Reviews</button></div>
+        <% let numNegativeReviews = Object.keys(negativeReviews).length %>
+<div class="reviews mt-4">
+    <h2 class="text-center">Negative Reviews</h2>
+    <% for (let i = 0; i < numNegativeReviews; i++) { 
+        let displayClass = i < 3 ? '' : 'd-none';
+        let reviewText = negativeReviews[i].reviews;
+        let shortText = reviewText.length > 100 ? reviewText.substring(0, 100) + '...' : reviewText; 
+    %>
+
+    <figure class="<%= displayClass %>" id="negative-review-<%= i %>">
+        <b><%= negativeReviews[i].title %></b>
+        <blockquote class="blockquote">
+            <p class="short-text"><%= shortText %></p>
+            <p class="full-text d-none"><%= reviewText %></p>
+            <button class="btn btn-link read-more">Read More</button>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            Metacritic user <cite title="username"><%= negativeReviews[i].userNames  %></cite> <strong>1/10</strong>
+        </figcaption>
+    </figure>
+    <% } %>
+</div>
+<div class="text-center m-3">
+    <button class="btn btn-primary" onclick="showAllReviews('negative', <%= numNegativeReviews %>)">Read All Negative Reviews</button>
+</div>
+
+<div class="critic-reviews mt-4"><h2 class="text-center">Critic Reviews</h2>
+    <% for (let i = 0; i < criticReviewItems.length; i++) {
+        let reviewer = criticReviewItems[i].reviewer || "Anonymous";
+        let url = criticReviewItems[i].url ? `href="${criticReviewItems[i].url}"` : ''; 
+        %>
+        <figure>
+    <b>
+        <a href="<%= criticReviewItems[i].url ? criticReviewItems[i].url : '#' %>"><%= criticReviewItems[i].reviewer %></a>
+    </b>
+    <i>&nbsp;<%= criticReviewItems[i].score %>/100</i>
+    <blockquote class="blockquote">
+        <p><%= criticReviewItems[i].quote %></p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+        In <cite title="username"><%= criticReviewItems[i].site %></cite>
+    </figcaption>
+</figure>
+<% } %>
+</div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script src="/movieDetails.js"></script>
+
+
+
+</body>
+
+</html>

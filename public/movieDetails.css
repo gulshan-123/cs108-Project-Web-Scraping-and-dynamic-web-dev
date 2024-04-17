@@ -1,0 +1,77 @@
+.img {
+    max-height: 270px;
+    object-fit: cover;
+    border: 10px solid black;
+}
+
+.visit-site-btn {
+    top: 10px;
+    right: 10px;
+}
+
+@media (max-width: 768px) {
+    .visit-site-btn {
+        top: auto;
+        bottom: 10px;
+        right: 10px;
+    }
+
+}
+
+.reviews {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.review {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.review:last-child {
+    border-bottom: none;
+}
+
+.review h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.review p {
+    margin-bottom: 10px;
+}
+
+.critic-reviews {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.critic-reviews .review {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.critic-reviews .review:last-child {
+    border-bottom: none;
+}
+
+.critic-reviews .review h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.critic-reviews .review p {
+    margin-bottom: 10px;
+}
+/* .cardOfDetails{
+    transition: none !important;
+}
+.cardOfDetails.scrollUp {
+    animation: none !important;
+} */
