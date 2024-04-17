@@ -49,6 +49,11 @@ app.get('/movie/:id', function(req, res) {
         });
 });
 
+app.get('/movies', (req, res) => {
+    let movies=req.movies
+    res.json(movies);
+});
+
 app.get('/search', (req, res) => {
     const query = req.query.q;
     const results = searchYourData(query);
