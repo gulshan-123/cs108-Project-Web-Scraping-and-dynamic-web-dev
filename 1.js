@@ -5,6 +5,7 @@ const port = 3000
 
 app.set('view engine', 'ejs'); // Set EJS as view engine
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     req.movies = JSON.parse(fs.readFileSync('./data/movies.json', 'utf8'));
@@ -59,6 +60,46 @@ app.get('/search', (req, res) => {
     const results = searchYourData(query);
     res.json(results);
 });
+
+
+app.post('/handleSignup', (req, res) => {
+    const { email, password } = req.body;
+
+    fs.readFile('./data/users.json', (err, data) => {
+        if (err) throw err;
+
+        const users = JSON.parse(data);
+
+        // Check if email already exists
+        const existingUser = users.find(user => user.email === email);
+        if (existingUser) {
+            return res.send(`
+                <p>Email already exists. You will be redirected in 3 seconds...</p>
+                <script>
+                    setTimeout(function() {
+                        window.location.href = '/signup';
+                    }, 3000);
+                </script>
+            `);
+        }
+
+        users.push({ email, password });
+
+        fs.writeFile('./data/users.json', JSON.stringify(users), (err) => {
+            if (err) throw err;
+
+            res.send(`
+                <p>Signup successful. You will be redirected in 3 seconds...</p>
+                <script>
+                    setTimeout(function() {
+                        window.location.href = '/';
+                    }, 3000);
+                </script>
+            `);
+        });
+    });
+});
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
