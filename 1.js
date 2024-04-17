@@ -100,6 +100,47 @@ app.post('/handleSignup', (req, res) => {
     });
 });
 
+app.post('/handleLogin', (req, res) => {
+    const { email, password } = req.body;
+
+    fs.readFile('./data/users.json', (err, data) => {
+        if (err) throw err;
+
+        const users = JSON.parse(data);
+        const user = users.find(user => user.email === email);
+
+        if (!user) {
+            return res.send(`
+            <p>No user found with this email. Sign Up first. You will be redirected in 3 seconds...</p>
+            <script>
+                setTimeout(function() {
+                    window.location.href = '/signup';
+                }, 3000);
+            </script>
+        `);
+        }
+
+        if (user.password !== password) {
+            return res.send(`
+            <p>Incorrect Password !!! You will be redirected in 3 seconds...</p>
+            <script>
+                setTimeout(function() {
+                    window.location.href = '/login';
+                }, 3000);
+            </script>
+        `);
+        }
+
+        res.send(`
+        <p>Login Successful... You will be redirected in 3 seconds...</p>
+        <script>
+            setTimeout(function() {
+                window.location.href = '/';
+            }, 3000);
+        </script>
+    `);
+    });
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

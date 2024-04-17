@@ -15,19 +15,19 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header bg-primary text-white text-center">
+                    <div class="card-header text-center">
                         <h3>Login</h3>
                         <p>Please fill in your credentials to login.</p>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form action="/handleLogin" method="POST">
                             <div class="form-group">
                                 <label for="email">Email address</label>
-                                <input type="email" class="form-control" id="email" placeholder="Enter email">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Enter email">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="Enter password">
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Submit</button>
                             <span id="errorMessage" class="text-danger d-block text-center mt-3"></span>
