@@ -24,14 +24,24 @@
             </li>
         </ul>
 
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="http://localhost:3000/login" style="display: <%= loginDisplay %>;">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="http://localhost:3000/signup" style="display: <%= signupDisplay %>;">Sign Up</a>
-            </li>
-        </ul>
+        <% if (user) { %>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        <% } else { %>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:3000/login" style="display: <%= loginDisplay %>;">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:3000/signup" style="display: <%= signupDisplay %>;">Sign Up</a>
+                </li>
+            </ul>
+        <% } %>
+
+
         <form id="search-form" class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="text" id="search" placeholder="Search movies..." aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

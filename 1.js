@@ -1,12 +1,22 @@
 const express = require('express')
 const fs = require('fs');
 const app = express()
+const session = require('express-session');
 const port = 3000
 
 app.set('view engine', 'ejs'); // Set EJS as view engine
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
-
+app.use(session({
+    secret: 'secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // set to true if your using https
+  }));
+app.use((req, res, next) => {
+    res.locals.user = req.session.user;
+    next();
+});
 app.use((req, res, next) => {
     req.movies = JSON.parse(fs.readFileSync('./data/movies.json', 'utf8'));
     req.userReviews = JSON.parse(fs.readFileSync('./data/userReviews.json', 'utf8'));
@@ -25,7 +35,10 @@ app.get('/login', (req, res) => {
 app.get('/signup', (req, res) => {
     res.render('signup') // Render register.ejs file
 })
-
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+})
 app.get('/:slug([0-9]+)', (req, res) => {
     var pagenumber = parseInt(req.params.slug, 10);
     res.render('index', { movies: req.movies, userReviews: req.userReviews, criticReviews: req.criticReviews, pagenumber: pagenumber }) // Render 1.ejs file
@@ -49,6 +62,22 @@ app.get('/movie/:id', function(req, res) {
          criticReviewItems: criticReviewItems 
         });
 });
+
+app.post('/rate', (req, res) => {
+    let movies = req.movies;
+
+    let rating = req.body.rating;
+    let movieIndex = req.body.movieIndex;
+    console.log(movieIndex);
+    console.log(movies[movieIndex]);
+    let movie = movies[movieIndex];
+    // Save the rating to a JSON file
+    fs.writeFile('./data/myratings.json', JSON.stringify({ [req.session.user.email]: { movie: movie, myrating: rating } }), (err) => {
+        if (err) throw err;
+        res.json({ status: 'success' });
+      });
+  });
+    
 
 app.get('/movies', (req, res) => {
     let movies=req.movies
@@ -120,6 +149,16 @@ app.post('/handleSignup', (req, res) => {
 });
 
 app.post('/handleLogin', (req, res) => {
+    if (req.session.user) {
+        return res.send(`
+            <p>You are already logged in. You will be redirected in 2 seconds...</p>
+            <script>
+                setTimeout(function() {
+                    window.location.href = '/';
+                }, 2000);
+            </script>
+        `);
+    }
     const { email, password } = req.body;
 
     fs.readFile('./data/users.json', (err, data) => {
@@ -149,6 +188,7 @@ app.post('/handleLogin', (req, res) => {
             </script>
         `);
         }
+        req.session.user = user; // it will create a session object for the user and store the user object in it, so that we can access it in other routes
 
         res.send(`
         <p>Login Successful... You will be redirected in 3 seconds...</p>

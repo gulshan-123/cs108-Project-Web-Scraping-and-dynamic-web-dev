@@ -10,7 +10,7 @@
 
 <body>
     <!-- include the navbar from templates folder -->
-    <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block"}) %>
+    <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block", }) %>
     <% let numContent = 24; %>
 
     <%- include('./../templates/movieCards.ejs', {movies:movies, pagenumber:pagenumber, numContent:numContent}) %>

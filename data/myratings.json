@@ -1,0 +1,38 @@
+{
+    "vistasflamingo76@gmail.com": {
+        "movie": {
+            "Title": "The Dark Knight",
+            "Rating": [
+                "9.0",
+                " (2.9M)"
+            ],
+            "Metadata": [
+                "2008",
+                "2h 32m",
+                "PG-13"
+            ],
+            "Info": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+            "Director": [
+                "Christopher Nolan"
+            ],
+            "Cast": [
+                "Christian Bale",
+                "Heath Ledger",
+                "Aaron Eckhart"
+            ],
+            "Image": {
+                "140w": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_QL75_UX140_CR0,0,140,207_.jpg",
+                "210w": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_QL75_UX210_CR0,0,210,311_.jpg",
+                "280w": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_QL75_UX280_CR0,0,280,414_.jpg"
+            },
+            "Trailer": "https://www.youtube.com/watch?v=EXeTwQWrcwY",
+            "imdbID": "tt0468569",
+            "genre": [
+                "Action",
+                "Crime",
+                "Drama"
+            ]
+        },
+        "rating": "6"
+    }
+}
