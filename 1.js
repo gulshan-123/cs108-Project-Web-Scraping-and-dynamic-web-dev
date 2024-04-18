@@ -72,9 +72,26 @@ app.post('/rate', (req, res) => {
     console.log(movies[movieIndex]);
     let movie = movies[movieIndex];
     // Save the rating to a JSON file
-    fs.writeFile('./data/myratings.json', JSON.stringify({ [req.session.user.email]: { movie: movie, myrating: rating } }), (err) => {
+    fs.readFile('./data/myratings.json', 'utf8', (err, data) => {
         if (err) throw err;
-        res.json({ status: 'success' });
+      
+        // Parse the data into a JavaScript object
+        let ratings = JSON.parse(data);
+      
+        // Check if the email already exists
+        if (ratings[req.session.user.email]) {
+          // If the email exists, update the existing entry
+          ratings[req.session.user.email].push({ movie: movie, myrating: rating });
+        } else {
+          // If the email doesn't exist, create a new entry
+          ratings[req.session.user.email] = [{ movie: movie, myrating: rating }];
+        }
+      
+        // Write the updated data back to the file
+        fs.writeFile('./data/myratings.json', JSON.stringify(ratings), (err) => {
+          if (err) throw err;
+          res.json({ status: 'success' });
+        });
       });
   });
     
