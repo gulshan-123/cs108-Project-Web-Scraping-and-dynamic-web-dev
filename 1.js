@@ -2,17 +2,18 @@ const express = require('express')
 const fs = require('fs');
 const app = express()
 const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 const port = 3000
 
 app.set('view engine', 'ejs'); // Set EJS as view engine
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'secret-key',
+    store: new FileStore(),
+    secret: 'gulshan@123',
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // set to true if your using https
-  }));
+    saveUninitialized: true
+}));
 app.use((req, res, next) => {
     res.locals.user = req.session.user;
     next();
@@ -35,32 +36,29 @@ app.get('/login', (req, res) => {
 app.get('/signup', (req, res) => {
     res.render('signup') // Render register.ejs file
 })
-app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.redirect('/');
-})
 app.get('/:slug([0-9]+)', (req, res) => {
     var pagenumber = parseInt(req.params.slug, 10);
     res.render('index', { movies: req.movies, userReviews: req.userReviews, criticReviews: req.criticReviews, pagenumber: pagenumber }) // Render 1.ejs file
 })
 
-app.get('/movie/:id', function(req, res) {
+app.get('/movie/:id', function (req, res) {
     let movies = req.movies;
     let userReviews = req.userReviews;
     let criticReviews = req.criticReviews;
     let movieIndex = req.query.movieIndex;
-    
+
     let movie = movies.find(movie => movie.imdbID === req.params.id);
     let positiveReviews = userReviews[movieIndex][movie.Title].positive;
     let negativeReviews = userReviews[movieIndex][movie.Title].negative;
     let criticReviewItems = criticReviews[movieIndex][movie.Title].items;
 
     res.render('movieDetails', {
-         movie: movie, 
-         positiveReviews: positiveReviews, 
-         negativeReviews: negativeReviews, 
-         criticReviewItems: criticReviewItems 
-        });
+        movie: movie,
+        positiveReviews: positiveReviews,
+        negativeReviews: negativeReviews,
+        criticReviewItems: criticReviewItems,
+        movieIndex: movieIndex
+    });
 });
 
 app.post('/rate', (req, res) => {
@@ -68,36 +66,37 @@ app.post('/rate', (req, res) => {
 
     let rating = req.body.rating;
     let movieIndex = req.body.movieIndex;
-    console.log(movieIndex);
-    console.log(movies[movieIndex]);
+    console.log(`inside rate ${rating}`);
+    console.log(`inside rate ${movieIndex}`);
     let movie = movies[movieIndex];
     // Save the rating to a JSON file
     fs.readFile('./data/myratings.json', 'utf8', (err, data) => {
         if (err) throw err;
-      
+
         // Parse the data into a JavaScript object
         let ratings = JSON.parse(data);
-      
+
         // Check if the email already exists
         if (ratings[req.session.user.email]) {
-          // If the email exists, update the existing entry
-          ratings[req.session.user.email].push({ movie: movie, myrating: rating });
+            // If the email exists, update the existing entry
+            ratings[req.session.user.email].push({ movie: movie, myrating: rating });
         } else {
-          // If the email doesn't exist, create a new entry
-          ratings[req.session.user.email] = [{ movie: movie, myrating: rating }];
+            // If the email doesn't exist, create a new entry
+            ratings[req.session.user.email] = [{ movie: movie, myrating: rating }];
         }
-      
-        // Write the updated data back to the file
-        fs.writeFile('./data/myratings.json', JSON.stringify(ratings), (err) => {
-          if (err) throw err;
-          res.json({ status: 'success' });
-        });
-      });
-  });
-    
 
-app.get('/movies', (req, res) => {
-    let movies=req.movies
+        // Write the updated data back to the file
+        // console.log(JSON.stringify(ratings));
+        fs.writeFile('./data/myratings.json', JSON.stringify(ratings), (err) => {
+            if (err) console.log(err);
+            res.json({ status: 'success' });
+        });
+    });
+});
+
+
+app.get('/movies', (req, res) => {  // usage in search.js
+    let movies = req.movies
     res.json(movies);
 });
 
@@ -110,7 +109,7 @@ app.get('/search', (req, res) => {
 app.get('/genre', (req, res) => {
     let movies = req.movies;
 
-    const genre = req.query.genre.replace(/\b\w/g, function(char) {
+    const genre = req.query.genre.replace(/\b\w/g, function (char) {
         return char.toUpperCase();
     });
     // console.log(genre);
@@ -122,7 +121,7 @@ app.get('/genre', (req, res) => {
         movieIndex.push(movies.indexOf(filteredMovies[i]));
     }
     // console.log(movieIndex);
-    res.render('genre', { movies: filteredMovies, movieIndex: movieIndex, genre: genre});
+    res.render('genre', { movies: filteredMovies, movieIndex: movieIndex, genre: genre });
     // res.render('genre', { movies: filteredMovies });
 
 });
@@ -139,11 +138,11 @@ app.post('/handleSignup', (req, res) => {
         const existingUser = users.find(user => user.email === email);
         if (existingUser) {
             return res.send(`
-                <p>Email already exists. You will be redirected in 3 seconds...</p>
+                <p>Email already exists. You will be redirected in 1 seconds...</p>
                 <script>
                     setTimeout(function() {
                         window.location.href = '/signup';
-                    }, 3000);
+                    }, 1000);
                 </script>
             `);
         }
@@ -154,11 +153,11 @@ app.post('/handleSignup', (req, res) => {
             if (err) throw err;
 
             res.send(`
-                <p>Signup successful. You will be redirected in 3 seconds...</p>
+                <p>Signup successful. You will be redirected in 1 seconds...</p>
                 <script>
                     setTimeout(function() {
                         window.location.href = '/';
-                    }, 3000);
+                    }, 1000);
                 </script>
             `);
         });
@@ -168,11 +167,11 @@ app.post('/handleSignup', (req, res) => {
 app.post('/handleLogin', (req, res) => {
     if (req.session.user) {
         return res.send(`
-            <p>You are already logged in. You will be redirected in 2 seconds...</p>
+            <p>You are already logged in. You will be redirected in 1 seconds...</p>
             <script>
                 setTimeout(function() {
                     window.location.href = '/';
-                }, 2000);
+                }, 1000);
             </script>
         `);
     }
@@ -186,38 +185,48 @@ app.post('/handleLogin', (req, res) => {
 
         if (!user) {
             return res.send(`
-            <p>No user found with this email. Sign Up first. You will be redirected in 3 seconds...</p>
+            <p>No user found with this email. Sign Up first. You will be redirected in 1 seconds...</p>
             <script>
                 setTimeout(function() {
                     window.location.href = '/signup';
-                }, 3000);
+                }, 1000);
             </script>
         `);
         }
 
         if (user.password !== password) {
             return res.send(`
-            <p>Incorrect Password !!! You will be redirected in 3 seconds...</p>
+            <p>Incorrect Password !!! You will be redirected in 1 seconds...</p>
             <script>
                 setTimeout(function() {
                     window.location.href = '/login';
-                }, 3000);
+                }, 1000);
             </script>
         `);
         }
         req.session.user = user; // it will create a session object for the user and store the user object in it, so that we can access it in other routes
 
         res.send(`
-        <p>Login Successful... You will be redirected in 3 seconds...</p>
+        <p>Login Successful... You will be redirected in 1 seconds...</p>
         <script>
             setTimeout(function() {
                 window.location.href = '/';
-            }, 3000);
+            }, 1000);
         </script>
     `);
     });
 });
 
+app.get('/recommend', (req, res) => {
+    // pass the ./data/myratings.json file to the recommend.ejs file
+    let myratings = JSON.parse(fs.readFileSync('./data/myratings.json', 'utf8'));
+    res.render('recommend', { myratings: myratings, movies: req.movies});
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+})
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })

@@ -60,8 +60,11 @@ async function searchMovies(searchQuery) {
     }
 
     htmlMovie += `</div>`
+    if (document.querySelector('.pagination') !== null){
     document.querySelector('.pagination').innerHTML = '';
-    document.querySelector('.otherThanNav').innerHTML = htmlMovie;
+    }
+    if (document.querySelector('.otherThanNav') !== null){
+    document.querySelector('.otherThanNav').innerHTML = htmlMovie;}
 }
 
 function generateMovieCard(movie, index) {

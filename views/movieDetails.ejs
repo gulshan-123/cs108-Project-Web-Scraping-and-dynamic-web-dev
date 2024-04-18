@@ -24,6 +24,7 @@
                         <div class="card-body">
                             <a href="https://www.imdb.com/title/<%= movie.imdbID %>"
                                 class="btn btn-primary d-md-none mb-3">Visit IMDB Site</a>
+                                <button type="button" class="btn btn-secondary btn-sm mb-3" id="RateBtn<%= movieIndex %>" onclick="handleRate()">Rate</button>
                             <h5 class="card-title">
                                 <%= movie.Title %>
                             </h5>
@@ -46,6 +47,7 @@
                 <a href="https://www.imdb.com/title/<%= movie.imdbID %>"
                     class="btn btn-primary position-absolute visit-site-btn d-none d-md-block"
                     style="top: 10px; right: 10px;">Visit IMDB Site</a>
+
 
             </div>
         </div>
@@ -117,11 +119,89 @@
 </figure>
 <% } %>
 </div>
+<div class="modal" tabindex="-1" role="dialog" id="rateModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Rate Movie</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="rateForm">
+            <div class="form-group">
+              <label for="rating">Rating</label>
+              <input type="number" class="form-control" id="rating" name="rating" min="1" max="10" required>
+
+                <input type="hidden" id="imdbID" name="imdbID" value="">
+            
+                <input type="hidden" id="movieIndex" name="movieIndex" value="">
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="submitRating">Submit</button>
+          <button type="button" class="btn btn-secondary" id="rateclose" data-dismiss="modal">Close</button>
+        </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
         <script src="/movieDetails.js"></script>
+        <script>
+            function handleRate() {
+        // Do only if the user is logged in
+        if (<%= !user %>) {
+            alert('Please login to rate the movie');
+            return;
+        }
+        // open the modal to rate the movie
+        document.getElementById('rateModal').style.display = 'block';
 
+        document.getElementById('imdbID').value = "<%= movie.imdbID %>" ;
+        document.getElementById('movieIndex').value = <%= movieIndex %> ;
+        console.log("<%= user %>");
+    }
+    // on clicking X button or close button, close the modal
+    document.querySelector('#rateclose').addEventListener('click', function() {
+        document.getElementById('rateModal').style.display = 'none';
+    });
+    document.querySelector('.close').addEventListener('click', function() {
+        document.getElementById('rateModal').style.display = 'none';
+    });
+    // on clicking outside the modal, close the modal
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('rateModal')) {
+            document.getElementById('rateModal').style.display = 'none';
+        }
+    };
+    document.getElementById('rateForm').addEventListener('submit', (event) => {
+        // Prevent the form from being submitted normally
+        event.preventDefault();
+
+        let rating = document.getElementById('rating').value;
+        console.log(`Rating: ${rating}`);
+        fetch('/rate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `rating=${encodeURIComponent(rating)}&imdbID=${encodeURIComponent("<%= movie.imdbID %>")}&movieIndex=${encodeURIComponent("<%= movieIndex %>")}`,
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('rateModal').style.display = 'none';
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+
+</script>
+<script src="/search.js"></script>
 
 
 </body>

@@ -16,7 +16,6 @@
                 </div>
                 <div class="card-footer">
                     <button type="button" class="btn btn-secondary btn-sm" id="MoreBtn<%= i %>" onclick="handleClick(event, '<%= movies[i].imdbID %>')">More</button>
-                    <button type="button" class="btn btn-secondary btn-sm" id="RateBtn<%= i %>" onclick="handleRate(event, '<%= movies[i].imdbID %>')">Rate</button>
                 </div>
                     
             </div>
@@ -61,59 +60,4 @@
         const movieIndex = parseInt(buttonId.replace('MoreBtn', ''));
         window.location.href = `/movie/${imdbID}?movieIndex=${movieIndex}`;
     }
-    function handleRate(event, imdbID) {
-        // Do only if the user is logged in
-        if (<%= !user %>) {
-            alert('Please login to rate the movie');
-            return;
-        }
-
-
-        const buttonId = event.target.id;
-        console.log(buttonId);
-        const movieIndex = parseInt(buttonId.replace('RateBtn', ''));
-        document.getElementById('rateModal').style.display = 'block';
-
-        document.getElementById('imdbID').value = imdbID;
-        document.getElementById('movieIndex').value = movieIndex;
-        console.log(imdbID);
-        console.log(movieIndex);
-    }
-    // on clicking X button or close button, close the modal
-    document.querySelector('#rateclose').addEventListener('click', function() {
-        document.getElementById('rateModal').style.display = 'none';
-    });
-    document.querySelector('.close').addEventListener('click', function() {
-        document.getElementById('rateModal').style.display = 'none';
-    });
-    // on clicking outside the modal, close the modal
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('rateModal')) {
-            document.getElementById('rateModal').style.display = 'none';
-        }
-    };
-    // on clicking submit button, send the rating to the server
-    document.getElementById('submitRating').addEventListener('click', () => {
-    let rating = document.getElementById('rating').value;
-    let imdbID = document.getElementById('imdbID').value;
-    console.log(imdbID);
-    console.log(rating);
-    let movieIndex = document.getElementById('movieIndex').value;
-    fetch('/rate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `rating=${encodeURIComponent(rating)}&imdbID=${encodeURIComponent(imdbID)}&movieIndex=${encodeURIComponent(movieIndex)}`,
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('rateModal').style.display = 'none';
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-});
-
-
 </script>
