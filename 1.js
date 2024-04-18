@@ -48,6 +48,10 @@ app.get('/movie/:id', function (req, res) {
     let movieIndex = req.query.movieIndex;
 
     let movie = movies.find(movie => movie.imdbID === req.params.id);
+    if (movieIndex === undefined) {
+        movieIndex = movies.findIndex(m => m.imdbID === movie.imdbID);
+    }
+
     let positiveReviews = userReviews[movieIndex][movie.Title].positive;
     let negativeReviews = userReviews[movieIndex][movie.Title].negative;
     let criticReviewItems = criticReviews[movieIndex][movie.Title].items;
@@ -66,27 +70,34 @@ app.post('/rate', (req, res) => {
 
     let rating = req.body.rating;
     let movieIndex = req.body.movieIndex;
-    console.log(`inside rate ${rating}`);
-    console.log(`inside rate ${movieIndex}`);
     let movie = movies[movieIndex];
-    // Save the rating to a JSON file
+
+    // Read the ratings from the JSON file
     fs.readFile('./data/myratings.json', 'utf8', (err, data) => {
         if (err) throw err;
 
         // Parse the data into a JavaScript object
         let ratings = JSON.parse(data);
 
-        // Check if the email already exists
+        // Check if the user already has ratings
         if (ratings[req.session.user.email]) {
-            // If the email exists, update the existing entry
-            ratings[req.session.user.email].push({ movie: movie, myrating: rating });
+            // If the user has ratings, check if a rating for the movie already exists
+            let userRatings = ratings[req.session.user.email];
+            let existingRatingIndex = userRatings.findIndex(r => r.movie.Title === movie.Title);
+
+            if (existingRatingIndex !== -1) {
+                // If a rating for the movie exists, update it
+                userRatings[existingRatingIndex].myrating = rating;
+            } else {
+                // If a rating for the movie doesn't exist, push a new one
+                userRatings.push({ movie: movie, myrating: rating });
+            }
         } else {
-            // If the email doesn't exist, create a new entry
+            // If the user doesn't have any ratings, create a new entry
             ratings[req.session.user.email] = [{ movie: movie, myrating: rating }];
         }
 
         // Write the updated data back to the file
-        // console.log(JSON.stringify(ratings));
         fs.writeFile('./data/myratings.json', JSON.stringify(ratings), (err) => {
             if (err) console.log(err);
             res.json({ status: 'success' });
@@ -221,6 +232,12 @@ app.get('/recommend', (req, res) => {
     // pass the ./data/myratings.json file to the recommend.ejs file
     let myratings = JSON.parse(fs.readFileSync('./data/myratings.json', 'utf8'));
     res.render('recommend', { myratings: myratings, movies: req.movies});
+});
+
+app.get('/userRated', (req, res) => {
+    let myratings = JSON.parse(fs.readFileSync('./data/myratings.json', 'utf8'));
+    console.log(myratings[req.session.user.email][0].movie.Title);
+    res.render('userRated', { myratings: myratings, movies: req.movies });
 });
 
 app.get('/logout', (req, res) => {
