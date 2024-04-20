@@ -23,7 +23,7 @@
                     <% for(let i = 0; i < myratings[user.email].length; i++) { %>
                        
                         <div class="card border-secondary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
-                            <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= myratings[user.email][i].movie.Image['280w'] %>" alt="<%= myratings[user.email][i].movie.Title %>">
+                            <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= myratings[user.email][i].movie.Image['280w'] %>" alt="<%= myratings[user.email][i].movie.Title %>" onclick="handleClick(event, '<%= myratings[user.email][i].movie.imdbID %>')">
                             <div class="card-body">
                                 <h5 class="card-title"><%= myratings[user.email][i].movie.Title %></h5>
                                 <div class="card-text" style="text-align: left;">

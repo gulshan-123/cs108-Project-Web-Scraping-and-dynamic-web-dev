@@ -69,7 +69,7 @@ recommendedMovies = recommendedMovies.filter((movie) => {
         <div class="row mb-3 text-center">
             <% for(let i = 0; i < 6; i++) { %>
                 <div class="card border-secondary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
-                    <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= recommendedMovies[i].movie.Image['280w'] %>" alt="<%= recommendedMovies[i].movie.Title %>">
+                    <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= recommendedMovies[i].movie.Image['280w'] %>" alt="<%= recommendedMovies[i].movie.Title %>" onclick="handleClick(event, '<%= recommendedMovies[i].movie.imdbID %>')">
                     <div class="card-body">
                         <h5 class="card-title"><%= recommendedMovies[i].movie.Title %></h5>
                         <div class="card-text" style="text-align: left;">
@@ -81,7 +81,7 @@ recommendedMovies = recommendedMovies.filter((movie) => {
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="btn btn-secondary btn-sm" %>" onclick="handleClick(event, '<%= recommendedMovies[i].movie.imdbID %>')">More</button>                </div>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="handleClick(event, '<%= recommendedMovies[i].movie.imdbID %>')">More</button>                </div>
                 </div>
             <% } %>
         </div>

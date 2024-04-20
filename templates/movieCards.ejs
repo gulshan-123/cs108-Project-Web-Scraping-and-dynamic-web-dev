@@ -1,10 +1,9 @@
-
 <div class="otherThanNav">
 <div class="movie-container" style="margin: 20px;">
     <div class="row mb-3 text-center">
         <% for(let i = (pagenumber - 1) * numContent; i < Math.min(pagenumber * numContent, 250); i++) { %>
             <div class="card border-secondary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
-                <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= movies[i].Image['280w'] %>" alt="<%= movies[i].Title %>">
+                <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= movies[i].Image['280w'] %>" alt="<%= movies[i].Title %>" onclick="handleClick(event, '<%= movies[i].imdbID %>')">
                 <div class="card-body">
                     <h5 class="card-title"><%= movies[i].Title %></h5>
                     <div class="card-text" style="text-align: left;">
@@ -56,9 +55,6 @@
 
 <script>
     function handleClick(event, imdbID) {
-        const buttonId = event.target.id;
-        console.log(buttonId);
-        const movieIndex = parseInt(buttonId.replace('MoreBtn', ''));
-        window.location.href = `/movie/${imdbID}?movieIndex=${movieIndex}`;
+        window.location.href = `/movie/${imdbID}`;
     }
 </script>
