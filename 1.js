@@ -236,7 +236,7 @@ app.get('/recommend', (req, res) => {
 
 app.get('/userRated', (req, res) => {
     let myratings = JSON.parse(fs.readFileSync('./data/myratings.json', 'utf8'));
-    console.log(myratings[req.session.user.email][0].movie.Title);
+    // console.log(myratings[req.session.user.email][0].movie.Title);
     res.render('userRated', { myratings: myratings, movies: req.movies });
 });
 

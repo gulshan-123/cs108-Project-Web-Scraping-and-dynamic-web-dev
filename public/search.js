@@ -32,10 +32,14 @@ async function searchMovies(searchQuery) {
     let mostSimilarMovieIndex = -1;
 
     for (let i = 0; i < movies.length; i++) {
-        let bigramTitle = bigramize(movies[i].Title.toLowerCase());
+        let cleanedTitle = movies[i].Title.toLowerCase().replace(/[^a-z0-9\s]/gi, '');
+        let bigramTitle = bigramize(cleanedTitle);
         let similarity = jaccard_similarity(bigramSearchQuery, bigramTitle);
 
-        if (similarity > 0.55) {
+        // Check if the search query is a substring of the movie title
+        if (cleanedTitle.includes(searchQuery.toLowerCase().replace(/[\s]/g, '')) || cleanedTitle.includes(searchQuery.toLowerCase()) ) {
+            similarMovies.push({ movie: movies[i], index: i });
+        } else if (similarity > 0.55) {
             similarMovies.push({ movie: movies[i], index: i });
         }
 
@@ -48,18 +52,26 @@ async function searchMovies(searchQuery) {
 
     let htmlMovie = '';
     if (similarMovies.length > 0) {
-        htmlMovie += `<div>These movies might be what you're looking for:</div>`;
-        htmlMovie += `<div class="row mb-3 text-center">`
+        htmlMovie += `<div class="alert alert-info text-center" role="alert">
+        These movies might be what you're looking for:
+    </div>`;
+        htmlMovie += `
+        <div class="movie-container">
+        <div class="row justify-content-center">`
         similarMovies.forEach(({ movie, index }) => {
             htmlMovie += generateMovieCard(movie, index);
         });
     } else if (mostSimilarMovie !== null) {
-        htmlMovie += `<div>You might mean <span style="color:green">${mostSimilarMovie.Title}</span></div>`;
-        htmlMovie += `<div class="row mb-3 text-center">`
+        htmlMovie += `<div class="alert alert-success text-center" role="alert">
+        You might mean <strong>${mostSimilarMovie.Title}</strong>
+    </div>`;
+        htmlMovie += `<div class="movie-container">`
+        htmlMovie += `<div class="row justify-content-center">`
         htmlMovie += generateMovieCard(mostSimilarMovie, mostSimilarMovieIndex);
     }
 
-    htmlMovie += `</div>`
+    htmlMovie += `</div>
+    </div>`
     if (document.querySelector('.pagination') !== null){
     document.querySelector('.pagination').innerHTML = '';
     }
