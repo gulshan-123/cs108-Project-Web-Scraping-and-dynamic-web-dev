@@ -1,5 +1,53 @@
+<style>
+    .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+    .dropdown-item {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.1rem;
+
+}
+</style>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  
+    <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+  
+    .card-title {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+    }
+  
+    .card-text h6 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+    }
+  
+    .card-text .text-muted {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+    }
+  
+    .modal-title {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+    }
+  
+    .form-group label {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+    }
+    </style>
+  </head>
+
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;" id="navbar">
-    <a class="navbar-brand" href="/">Movia</a>
+    <a class="navbar-brand" href="/">
+        Movia
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -16,10 +64,20 @@
                    <strong>Genres</strong>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <% var genres = ['action', 'adventure', 'animation', 'biography', 'comedy', 'crime', 'drama', 'family', 'fantasy', 'film-noir', 'history', 'horror', 'music', 'musical', 'mystery', 'romance', 'sci-fi', 'short', 'sport', 'thriller', 'war', 'western']; %>
-                    <% genres.forEach(function(genre) { %>
-                        <a class="dropdown-item" href="/genre?genre=<%= genre %>"><%= genre.charAt(0).toUpperCase() + genre.slice(1) %></a>
-                    <% }); %>
+                    <div class="d-md-flex justify-content-md-start">
+                        <div class="px-1">
+                            <% var genres = ['action', 'adventure', 'animation', 'biography', 'comedy', 'crime', 'drama', 'family', 'fantasy', 'film-noir','history']; %>
+                            <% genres.forEach(function(genre) { %>
+                                <a class="dropdown-item" href="/genre?genre=<%= genre %>"><%= genre.charAt(0).toUpperCase() + genre.slice(1) %></a>
+                            <% }); %>
+                        </div>
+                        <div class="px-1">
+                            <% var genres = ['horror', 'music', 'musical', 'mystery', 'romance', 'sci-fi', 'short', 'sport', 'thriller', 'war', 'western']; %>
+                            <% genres.forEach(function(genre) { %>
+                                <a class="dropdown-item" href="/genre?genre=<%= genre %>"><%= genre.charAt(0).toUpperCase() + genre.slice(1) %></a>
+                            <% }); %>
+                        </div>
+                    </div>
                 </div>
             </li>
         </ul>

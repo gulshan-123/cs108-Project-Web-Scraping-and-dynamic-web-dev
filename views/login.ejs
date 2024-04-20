@@ -7,6 +7,38 @@
     <title>Login</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        #form {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        #form .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        #form .form-control {
+            padding: 1.2rem;
+        }
+        
+        #form .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        
+        #form .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        
+        label {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1rem;
+        }
+        </style>
 </head>
 
 <body>
@@ -15,7 +47,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header text-center">
+                    <div class="card-header text-center" id="form">
                         <h3>Login</h3>
                         <p>Please fill in your credentials to login.</p>
                     </div>
@@ -42,7 +74,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="login.js"></script>
+    <script src="/search.js"></script>
 </body>
 
 </html>
