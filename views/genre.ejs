@@ -22,7 +22,7 @@
                 <div class="row mb-3 text-center">
                     <% for(let i = 0; i < movies.length; i++) { %>
                        
-                        <div class="card border-secondary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
+                        <div class="card border-primary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
                             <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= movies[i].Image['280w'] %>" alt="<%= movies[i].Title %>" onclick="handleClick(event, '<%= movies[i].imdbID %>')">
                             <div class="card-body">
                                 <h5 class="card-title"><%= movies[i].Title %></h5>
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button type="button" class="btn btn-secondary btn-sm" id="MoreBtn<%= movieIndex[i] %>" onclick="handleClick(event, '<%= movies[i].imdbID %>')">More</button>                </div>
+                                <button type="button" class="btn btn-primary btn-sm" id="MoreBtn<%= movieIndex[i] %>" onclick="handleClick(event, '<%= movies[i].imdbID %>')">More</button>                </div>
                         </div>
                     <% } %>
                 </div>

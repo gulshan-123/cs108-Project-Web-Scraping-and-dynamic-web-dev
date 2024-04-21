@@ -24,7 +24,7 @@
                         <div class="card-body">
                             <a href="https://www.imdb.com/title/<%= movie.imdbID %>"
                                 class="btn btn-primary d-md-none mb-3">Visit IMDB Site</a>
-                                <button type="button" class="btn btn-secondary btn-sm mb-3" id="RateBtn<%= movieIndex %>" onclick="handleRate()">Rate</button>
+                                <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="RateBtn<%= movieIndex %>" onclick="handleRate()">Rate</button>
                             <h5 class="card-title">
                                 <%= movie.Title %>
                             </h5>
@@ -141,7 +141,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" id="submitRating">Submit</button>
-          <button type="button" class="btn btn-secondary" id="rateclose" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-info" id="rateclose" data-dismiss="modal">Close</button>
         </div>
           </form>
         </div>
