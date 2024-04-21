@@ -26,9 +26,8 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-
-
-    res.render('index', { movies: req.movies, userReviews: req.userReviews, criticReviews: req.criticReviews, pagenumber: 1 }); // Render index.ejs file
+    // go to /1
+    res.redirect('/1');
 });
 app.get('/login', (req, res) => {
     res.render('login') // Render login.ejs file
@@ -37,8 +36,9 @@ app.get('/signup', (req, res) => {
     res.render('signup') // Render register.ejs file
 })
 app.get('/:slug([0-9]+)', (req, res) => {
+    let myratings = JSON.parse(fs.readFileSync('./data/myratings.json', 'utf8'));
     var pagenumber = parseInt(req.params.slug, 10);
-    res.render('index', { movies: req.movies, userReviews: req.userReviews, criticReviews: req.criticReviews, pagenumber: pagenumber }) // Render 1.ejs file
+    res.render('index', { movies: req.movies, userReviews: req.userReviews, criticReviews: req.criticReviews, pagenumber: pagenumber, myratings:myratings }) // Render 1.ejs file
 })
 
 app.get('/movie/:id', function (req, res) {

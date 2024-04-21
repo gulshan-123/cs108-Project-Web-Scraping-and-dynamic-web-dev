@@ -119,6 +119,7 @@
 </figure>
 <% } %>
 </div>
+<%# Modals for reviews. It will popup when the rate button is clicked. %>
 <div class="modal" tabindex="-1" role="dialog" id="rateModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -132,7 +133,7 @@
           <form id="rateForm">
             <div class="form-group">
               <label for="rating">Rating</label>
-              <input type="number" class="form-control" id="rating" name="rating" min="1" max="10" required>
+              <input type="number" class="form-control" id="rating" name="rating" min="1" max="10" step="0.1" required>
 
                 <input type="hidden" id="imdbID" name="imdbID" value="">
             
