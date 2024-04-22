@@ -75,6 +75,7 @@ recommendedMovies = recommendedMovies.filter((movie) => {
                         <div class="card-text" style="text-align: left;">
                             <h6>Duration:&nbsp;<small class="text-muted"><%= recommendedMovies[i].movie.Metadata[1] %></small></h6>
                             <h6>Rating:&nbsp;<small class="text-muted"><%= recommendedMovies[i].movie.Rating[0] %>/10</small></h6>
+                            <%- include('./../templates/avgRating.ejs' ,{myratings, movieTitle:recommendedMovies[i].movie.Title}) %>
                             <h6>Genre:&nbsp;<small class="text-muted"><%= recommendedMovies[i].movie.genre.join(', ') %></small></h6>
                             <h6>Director:&nbsp;<small class="text-muted"><%= recommendedMovies[i].movie.Director.join(', ') %></small></h6>
                             <h6>Stars:&nbsp;<small class="text-muted"><%= recommendedMovies[i].movie.Cast.join(', ') %></small></h6>

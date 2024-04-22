@@ -1,0 +1,27 @@
+<%
+          let total = 0;
+          let count = 0;
+          let specificMovie = movieTitle;
+      
+          for (let user in myratings) {
+              // For each user, iterate over their rated movies
+              for (let rating of myratings[user]) {
+                  // If the movie matches the specific movie, add the rating to the total and increment the count
+                  if (rating.movie.Title === specificMovie) {
+                      total += parseFloat(rating.myrating);
+                      count++;
+                  }
+              }
+          }
+      
+          let average;
+          if (count === 0) {
+              average = 0;
+          }
+          else {
+              average = total / count;
+          }
+%>
+<% if(average != 0) { %>
+    <h6>Rated:&nbsp;<small class="text-muted"><%= average %>/10</small>
+<% } %>

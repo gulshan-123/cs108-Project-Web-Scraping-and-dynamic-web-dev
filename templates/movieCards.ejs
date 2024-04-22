@@ -2,32 +2,6 @@
 <div class="movie-container" style="margin: 20px;">
     <div class="row mb-3 text-center">
         <% for(let i = (pagenumber - 1) * numContent; i < Math.min(pagenumber * numContent, 250); i++) { %>
-          <%
-          let total = 0;
-          let count = 0;
-          let specificMovie = movies[i].Title;
-      
-          for (let user in myratings) {
-              // For each user, iterate over their rated movies
-              for (let rating of myratings[user]) {
-                  // If the movie matches the specific movie, add the rating to the total and increment the count
-                  if (rating.movie.Title === specificMovie) {
-                      total += parseFloat(rating.myrating);
-                      count++;
-                  }
-              }
-          }
-      
-          let average;
-          if (count === 0) {
-              average = 0;
-          }
-          else {
-              average = total / count;
-          }
-          %>
-
-
             <div class="card border-primary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
                 <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= movies[i].Image['280w'] %>" alt="<%= movies[i].Title %>" onclick="handleClick(event, '<%= movies[i].imdbID %>')">
                 <div class="card-body">
@@ -35,9 +9,7 @@
                     <div class="card-text" style="text-align: left;">
                         <h6>Duration:&nbsp;<small class="text-muted"><%= movies[i].Metadata[1] %></small></h6>
                         <h6>Rating:&nbsp;<small class="text-muted"><%= movies[i].Rating[0] %>/10</small></h6>
-                        <% if(average != 0) { %>
-                            <h6>Rated:&nbsp;<small class="text-muted"><%= average %>/10</small>
-                      <% } %>
+                        <%- include('avgRating.ejs' ,{myratings, movieTitle:movies[i].Title}) %>
                         <h6>Genre:&nbsp;<small class="text-muted"><%= movies[i].genre.join(', ') %></small></h6>
                         <h6>Director:&nbsp;<small class="text-muted"><%= movies[i].Director.join(', ') %></small></h6>
                         <h6>Stars:&nbsp;<small class="text-muted"><%= movies[i].Cast.join(', ') %></small></h6>

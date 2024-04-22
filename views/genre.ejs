@@ -29,6 +29,7 @@
                                 <div class="card-text" style="text-align: left;">
                                     <h6>Duration:&nbsp;<small class="text-muted"><%= movies[i].Metadata[1] %></small></h6>
                                     <h6>Rating:&nbsp;<small class="text-muted"><%= movies[i].Rating[0] %>/10</small></h6>
+                                    <%- include('./../templates/avgRating.ejs' ,{myratings, movieTitle:movies[i].Title}) %>
                                     <h6>Genre:&nbsp;<small class="text-muted"><%= movies[i].genre.join(', ') %></small></h6>
                                     <h6>Director:&nbsp;<small class="text-muted"><%= movies[i].Director.join(', ') %></small></h6>
                                     <h6>Stars:&nbsp;<small class="text-muted"><%= movies[i].Cast.join(', ') %></small></h6>
