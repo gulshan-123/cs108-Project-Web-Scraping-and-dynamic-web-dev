@@ -1,53 +1,56 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/movieCards.css">
-        <title>Movia</title>
-    </head>
-    
-    <body>
-        <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block"}) %>
-        <div class="otherThanNav">
-            <div class="container">
-                <h1 class="text-center mt-3">Movies</h1>
-                <div class="row">
-                    <div class="col-12">
-                        <h2 class="text-center">Genre: <%= genre %></h2>
-                    </div>
-                </div>
-            <div class="movie-container">
-                <div class="row mb-3 text-center">
-                    <% for(let i = 0; i < movies.length; i++) { %>
-                       
-                        <div class="card border-primary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
-                            <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= movies[i].Image['280w'] %>" alt="<%= movies[i].Title %>" onclick="handleClick(event, '<%= movies[i].imdbID %>')">
-                            <div class="card-body">
-                                <h5 class="card-title"><%= movies[i].Title %></h5>
-                                <div class="card-text" style="text-align: left;">
-                                    <h6>Duration:&nbsp;<small class="text-muted"><%= movies[i].Metadata[1] %></small></h6>
-                                    <h6>Rating:&nbsp;<small class="text-muted"><%= movies[i].Rating[0] %>/10</small></h6>
-                                    <%- include('./../templates/avgRating.ejs' ,{myratings, movieTitle:movies[i].Title}) %>
-                                    <h6>Genre:&nbsp;<small class="text-muted"><%= movies[i].genre.join(', ') %></small></h6>
-                                    <h6>Director:&nbsp;<small class="text-muted"><%= movies[i].Director.join(', ') %></small></h6>
-                                    <h6>Stars:&nbsp;<small class="text-muted"><%= movies[i].Cast.join(', ') %></small></h6>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="button" class="btn btn-primary btn-sm" id="MoreBtn<%= movieIndex[i] %>" onclick="handleClick(event, '<%= movies[i].imdbID %>')">More</button>                </div>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/movieCards.css">
+  <title>Movia</title>
+</head>
+
+<body>
+  <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block"}) %>
+  <div class="otherThanNav">
+    <div class="container">
+      <h1 class="text-center mt-3">Movies</h1>
+      <div class="row">
+        <div class="col-12">
+          <h2 class="text-center">Genre: <%= genre %></h2>
         </div>
-<script>
-    function handleClick(event, imdbID) {
+      </div>
+      <div class="movie-container">
+        <div class="row mb-3 text-center">
+          <% for(let i = 0; i < movies.length; i++) { %>
+
+          <div class="card border-primary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
+            <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= movies[i].Image['280w'] %>" alt="<%= movies[i].Title %>" onclick="handleClick(event, '<%= movies[i].imdbID %>')">
+            <div class="card-body">
+              <h5 class="card-title"><%= movies[i].Title %></h5>
+              <div class="card-text" style="text-align: left;">
+                <h6>Duration:&nbsp;<small class="text-muted"><%= movies[i].Metadata[1] %></small></h6>
+                <h6>Rating:&nbsp;<small class="text-muted"><%= movies[i].Rating[0] %>/10</small></h6>
+                <%- include('./../templates/avgRating.ejs' ,{myratings, movieTitle:movies[i].Title}) %>
+                <h6>Genre:&nbsp;<small class="text-muted"><%= movies[i].genre.join(', ') %></small></h6>
+                <h6>Director:&nbsp;<small class="text-muted"><%= movies[i].Director.join(', ') %></small></h6>
+                <h6>Stars:&nbsp;<small class="text-muted"><%= movies[i].Cast.join(', ') %></small></h6>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" class="btn btn-primary btn-sm" id="MoreBtn<%= movieIndex[i] %>" onclick="handleClick(event, '<%= movies[i].imdbID %>')">More</button>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <script>
+      function handleClick(event, imdbID) {
         window.location.href = `/movie/${imdbID}`;
-    }
-</script>
-<script src="/search.js"></script>
-        
-    </body>
-    </html>
+      }
+    </script>
+    <script src="/search.js"></script>
+
+</body>
+
+</html>

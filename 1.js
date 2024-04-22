@@ -38,7 +38,7 @@ app.get('/signup', (req, res) => {
 })
 app.get('/:slug([0-9]+)', (req, res) => {
     var pagenumber = parseInt(req.params.slug, 10);
-    res.render('index', { movies: req.movies, userReviews: req.userReviews, criticReviews: req.criticReviews, pagenumber: pagenumber, myratings:req.myratings }) // Render 1.ejs file
+    res.render('index', { movies: req.movies, userReviews: req.userReviews, criticReviews: req.criticReviews, pagenumber: pagenumber, myratings: req.myratings }) // Render 1.ejs file
 })
 
 app.get('/movie/:id', function (req, res) {
@@ -110,13 +110,11 @@ app.get('/movies', (req, res) => {  // usage in search.js
     let movies = req.movies
     res.json(movies);
 });
-
 app.get('/search', (req, res) => {
-    const query = req.query.q;
-    const results = searchYourData(query);
-    res.json(results);
+    let movies = req.movies;
+    let searchQuery = req.query.q;
+    res.render('search', { movies: movies, searchQuery: searchQuery, myratings: req.myratings });
 });
-
 app.get('/genre', (req, res) => {
     let movies = req.movies;
 
@@ -132,7 +130,7 @@ app.get('/genre', (req, res) => {
         movieIndex.push(movies.indexOf(filteredMovies[i]));
     }
     // console.log(movieIndex);
-    res.render('genre', { movies: filteredMovies, movieIndex: movieIndex, genre: genre, myratings: req.myratings});
+    res.render('genre', { movies: filteredMovies, movieIndex: movieIndex, genre: genre, myratings: req.myratings });
     // res.render('genre', { movies: filteredMovies });
 
 });
@@ -231,7 +229,7 @@ app.post('/handleLogin', (req, res) => {
 app.get('/recommend', (req, res) => {
     // pass the ./data/myratings.json file to the recommend.ejs file
     let myratings = JSON.parse(fs.readFileSync('./data/myratings.json', 'utf8'));
-    res.render('recommend', { myratings: myratings, movies: req.movies,});
+    res.render('recommend', { myratings: myratings, movies: req.movies, });
 });
 
 app.get('/userRated', (req, res) => {

@@ -1,8 +1,13 @@
 function showAllReviews(type, numReviews) {
     for (let i = 3; i < numReviews; i++) {
         let reviewElement = document.getElementById(`${type}-review-${i}`);
+        let hrTag = document.getElementById(`${type}-hr-${i}`);
         if (reviewElement) {
             reviewElement.classList.remove('d-none');
+            if (hrTag) {
+                hrTag.classList.remove('d-none');
+            }
+            // hrTag.classList.remove('d-none');
         }
     }
     event.target.style.display = 'none';

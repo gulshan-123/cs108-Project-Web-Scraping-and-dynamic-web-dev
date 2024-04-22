@@ -2,78 +2,78 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        
-        #form {
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        #form .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        #form .form-control {
-            padding: 1.2rem;
-        }
-        
-        #form .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        
-        #form .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-        
-        label {
-            font-family: 'Arial', sans-serif;
-            font-size: 1.1rem;
-        }
-        </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    #form {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    #form .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    #form .form-control {
+      padding: 1.2rem;
+    }
+
+    #form .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    #form .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+
+    label {
+      font-family: 'Arial', sans-serif;
+      font-size: 1.1rem;
+    }
+  </style>
 </head>
 
 <body>
-<%- include('./../templates/navbar.ejs', {loginDisplay:"none", signupDisplay:"block"}) %>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header text-center" id="form">
-                        <h3>Login</h3>
-                        <p>Please fill in your credentials to login.</p>
-                    </div>
-                    <div class="card-body">
-                        <form action="/handleLogin" method="POST">
-                            <div class="form-group">
-                                <label for="email">Email address</label>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Enter email">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                            <span id="errorMessage" class="text-danger d-block text-center mt-3"></span>
-                        </form>
-                    </div>
-                </div>
-            </div>
+  <%- include('./../templates/navbar.ejs', {loginDisplay:"none", signupDisplay:"block"}) %>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header text-center" id="form">
+            <h3>Login</h3>
+            <p>Please fill in your credentials to login.</p>
+          </div>
+          <div class="card-body">
+            <form action="/handleLogin" method="POST">
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Submit</button>
+              <span id="errorMessage" class="text-danger d-block text-center mt-3"></span>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <script src="/search.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="/search.js"></script>
 </body>
 
 </html>

@@ -1,208 +1,215 @@
+<%# showAllReviews function is inside movieDetails.js %>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= movie.Title %>
-    </title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/movieDetails.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= movie.Title %>
+  </title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/movieDetails.css">
 </head>
 
 <body>
-    <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block"}) %>
-    <div class="otherThanNav">
-        <div class="card mb-3 m-3 rounded cardOfDetails">
-            <div class="row no-gutters">
-                <div class="col-md-4 mx-auto d-block m-2 rounded align-items-center">
-                    <img src="<%= movie.Image['280w'] %>" class="card-img img-fluid">
-                </div>
-                <div class="col-md-8">
-                    <div class="col-md-8 mx-auto d-block">
-                        <div class="card-body">
-                            <a href="https://www.imdb.com/title/<%= movie.imdbID %>"
-                                class="btn btn-primary d-md-none mb-3">Visit IMDB Site</a>
-                                <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="RateBtn<%= movieIndex %>" onclick="handleRate()">Rate</button>
-                            <h5 class="card-title">
-                                <%= movie.Title %>
-                            </h5>
+  <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block"}) %>
+  <div class="otherThanNav">
+    <div class="card mb-3 m-3 pl-2 rounded cardOfDetails border-primary">
+      <div class="row no-gutters">
+        <div class="col-md-4 mx-auto d-block m-2 rounded align-items-center">
+          <img src="<%= movie.Image['280w'] %>" class="card-img img-fluid">
+        </div>
+        <div class="col-md-8">
+          <div class="col-md-8 mx-auto d-block">
+            <div class="card-body">
+              <a href="https://www.imdb.com/title/<%= movie.imdbID %>" class="btn btn-primary d-md-none mb-3">Visit IMDB Site</a>
+              <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="RateBtn<%= movieIndex %>" onclick="handleRate()">Rate</button>
+              <h5 class="card-title">
+                <%= movie.Title %>
+              </h5>
 
-                            <p class="card-text"><strong>Casts:&nbsp;</strong>
-                                <%= movie.Cast.join(', ') %></p>
-                    <p class="card-text"><strong>Director:&nbsp;</strong><%= movie.Director.join(' , ') %></p>
-                    <p class="card-text"><strong>Ratings:&nbsp;</strong><%= movie.Rating[0] %>/10</p>
-                    <p class="card-text"><strong>Genre:&nbsp;</strong><%= movie.genre.join(', ') %> </p>
-                    <p class="card-text"><strong>Year:&nbsp;</strong> <%= movie.Metadata[0] %> | <strong>Duration:&nbsp;</strong><%= movie.Metadata[1] %>&nbsp; | <%= movie.Metadata[2] %></p>
-                    <p class="card-text"><strong>Plot: </strong><%= movie.Info %></p>
-                    <div class="embed-responsive embed-responsive-16by9">
-                    <iframe width="1210" height="480" src="https://www.youtube.com/embed/<%= new URL(movie.Trailer).searchParams.get('v') %>" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;
-                                    picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
-                                    allowfullscreen></iframe>
-                        </div>
-                    </div>
-                </div>
-                <a href="https://www.imdb.com/title/<%= movie.imdbID %>"
-                    class="btn btn-primary position-absolute visit-site-btn d-none d-md-block"
-                    style="top: 10px; right: 10px;">Visit IMDB Site</a>
-
-
+              <p class="card-text"><strong>Casts:&nbsp;</strong>
+                <%= movie.Cast.join(', ') %></p>
+              <p class="card-text"><strong>Director:&nbsp;</strong><%= movie.Director.join(' , ') %></p>
+              <p class="card-text"><strong>Ratings:&nbsp;</strong><%= movie.Rating[0] %>/10</p>
+              <p class="card-text"><strong>Genre:&nbsp;</strong><%= movie.genre.join(', ') %> </p>
+              <p class="card-text"><strong>Year:&nbsp;</strong> <%= movie.Metadata[0] %> | <strong>Duration:&nbsp;</strong><%= movie.Metadata[1] %>&nbsp; | <%= movie.Metadata[2] %></p>
+              <p class="card-text"><strong>Plot: </strong><%= movie.Info %></p>
+              <div class="embed-responsive embed-responsive-16by9">
+                <iframe width="1210" height="480" src="https://www.youtube.com/embed/<%= new URL(movie.Trailer).searchParams.get('v') %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;
+                                                picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>
             </div>
+          </div>
+          <a href="https://www.imdb.com/title/<%= movie.imdbID %>" class="btn btn-primary position-absolute visit-site-btn d-none d-md-block" style="top: 10px; right: 10px;">Visit IMDB Site</a>
+
+
         </div>
-        </div>
-        <% let numPositiveReviews= Object.keys(positiveReviews).length %>
-        <div class="reviews mt-4">
-            <h2 class="text-center">Positive Reviews</h2>
-            <% for (let i = 0; i < numPositiveReviews; i++) { 
+      </div>
+    </div>
+    <% let numPositiveReviews= Object.keys(positiveReviews).length %>
+    <div class="reviews mt-4 border-primary m-3">
+      <h2 class="text-center">Positive Reviews</h2>
+      <% for (let i = 0; i < numPositiveReviews; i++) { 
                 let displayClass = i < 3 ? '' : 'd-none';
             let reviewText = positiveReviews[i].reviews;
             let shortText = reviewText.length > 100 ? reviewText.substring(0, 100) + '...' : reviewText; 
             %>
 
-            <figure class="<%= displayClass %>" id="positive-review-<%= i %>">
-                <b><%= positiveReviews[i].title %></b>
-                <blockquote class="blockquote">
-                    <p class="short-text"><%= shortText %></p>
-                    <p class="full-text d-none"><%= reviewText %></p>
-                    <button class="btn btn-link read-more">Read More</button>
-                </blockquote>
-                <figcaption class="blockquote-footer">
-                    Metacritic user <cite title="username"><%= positiveReviews[i].userNames  %></cite> <strong>10/10</strong>
-                </figcaption>
-            </figure>
-            <% } %>
-            </div><div class="text-center m-3"><button class="btn btn-primary" onclick="showAllReviews('positive', <%= numPositiveReviews %>)">Read All Positive Reviews</button></div>
-        <% let numNegativeReviews = Object.keys(negativeReviews).length %>
-<div class="reviews mt-4">
-    <h2 class="text-center">Negative Reviews</h2>
-    <% for (let i = 0; i < numNegativeReviews; i++) { 
+      <figure class="<%= displayClass %>" id="positive-review-<%= i %>">
+        <b><%= positiveReviews[i].title %></b>
+        <blockquote class="blockquote">
+          <p class="short-text"><%= shortText %></p>
+          <p class="full-text d-none"><%= reviewText %></p>
+          <button class="btn btn-link read-more">Read More</button>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+          Metacritic user <cite title="username"><%= positiveReviews[i].userNames  %></cite> <strong>10/10</strong>
+        </figcaption>
+      </figure>
+      <% if (i < numPositiveReviews - 1) { %>
+      <hr style="border-top: 1px dotted rgb(60, 130, 204);" id="positive-hr-<%= i %>" class="<%= displayClass %>">
+      <% } %>
+      <% } %>
+    </div>
+    <div class="text-center m-3"><button class="btn btn-primary" onclick="showAllReviews('positive', <%= numPositiveReviews %>)">Read All Positive Reviews</button></div>
+    <% let numNegativeReviews = Object.keys(negativeReviews).length %>
+    <div class="reviews mt-4 border-primary m-3">
+      <h2 class="text-center">Negative Reviews</h2>
+      <% for (let i = 0; i < numNegativeReviews; i++) { 
         let displayClass = i < 3 ? '' : 'd-none';
         let reviewText = negativeReviews[i].reviews;
         let shortText = reviewText.length > 100 ? reviewText.substring(0, 100) + '...' : reviewText; 
     %>
 
-    <figure class="<%= displayClass %>" id="negative-review-<%= i %>">
+      <figure class="<%= displayClass %>" id="negative-review-<%= i %>">
         <b><%= negativeReviews[i].title %></b>
         <blockquote class="blockquote">
-            <p class="short-text"><%= shortText %></p>
-            <p class="full-text d-none"><%= reviewText %></p>
-            <button class="btn btn-link read-more">Read More</button>
+          <p class="short-text"><%= shortText %></p>
+          <p class="full-text d-none"><%= reviewText %></p>
+          <button class="btn btn-link read-more">Read More</button>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Metacritic user <cite title="username"><%= negativeReviews[i].userNames  %></cite> <strong>1/10</strong>
+          Metacritic user <cite title="username"><%= negativeReviews[i].userNames  %></cite> <strong>1/10</strong>
         </figcaption>
-    </figure>
-    <% } %>
-</div>
-<div class="text-center m-3">
-    <button class="btn btn-primary" onclick="showAllReviews('negative', <%= numNegativeReviews %>)">Read All Negative Reviews</button>
-</div>
+      </figure>
+      <% if (i < numNegativeReviews - 1) { %>
+      <hr style="border-top: 1px dotted rgb(60, 130, 204);" id="negative-hr-<%= i %>" class="<%= displayClass %>">
+      <% } %>
+      <% } %>
+    </div>
+    <div class="text-center m-3">
+      <button class="btn btn-primary" onclick="showAllReviews('negative', <%= numNegativeReviews %>)">Read All Negative Reviews</button>
+    </div>
 
-<div class="critic-reviews mt-4"><h2 class="text-center">Critic Reviews</h2>
-    <% for (let i = 0; i < criticReviewItems.length; i++) {
+    <div class="critic-reviews mt-4 border-primary m-3">
+      <h2 class="text-center">Critic Reviews</h2>
+      <% for (let i = 0; i < criticReviewItems.length; i++) {
         let reviewer = criticReviewItems[i].reviewer || "Anonymous";
         let url = criticReviewItems[i].url ? `href="${criticReviewItems[i].url}"` : ''; 
         %>
-        <figure>
-    <b>
-        <a href="<%= criticReviewItems[i].url ? criticReviewItems[i].url : '#' %>"><%= criticReviewItems[i].reviewer %></a>
-    </b>
-    <i>&nbsp;<%= criticReviewItems[i].score %>/100</i>
-    <blockquote class="blockquote">
-        <p><%= criticReviewItems[i].quote %></p>
-    </blockquote>
-    <figcaption class="blockquote-footer">
-        In <cite title="username"><%= criticReviewItems[i].site %></cite>
-    </figcaption>
-</figure>
-<% } %>
-</div>
-<%# Modals for reviews. It will popup when the rate button is clicked. %>
-<div class="modal" tabindex="-1" role="dialog" id="rateModal">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">⭐Rate Movie (/10) </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="rateForm">
-            <div class="form-group">
-              <label for="rating">Rating</label>
-              <input type="number" class="form-control" id="rating" name="rating" min="1" max="10" step="0.1" required>
+      <figure>
+        <b>
+          <a href="<%= criticReviewItems[i].url ? criticReviewItems[i].url : '#' %>"><%= criticReviewItems[i].reviewer %></a>
+        </b>
+        <i>&nbsp;<%= criticReviewItems[i].score %>/100</i>
+        <blockquote class="blockquote">
+          <p><%= criticReviewItems[i].quote %></p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+          In <cite title="username"><%= criticReviewItems[i].site %></cite>
+        </figcaption>
+      </figure>
+      <% if (i < criticReviewItems.length- 1) { %>
+      <hr style="border-top: 1px dotted rgb(60, 130, 204);">
+      <% } %>
+      <% } %>
+    </div>
+    <%# Modals for reviews. It will popup when the rate button is clicked. %>
+    <div class="modal" tabindex="-1" role="dialog" id="rateModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">⭐Rate Movie (/10) </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="rateForm">
+              <div class="form-group">
+                <label for="rating">Rating</label>
+                <input type="number" class="form-control" id="rating" name="rating" min="1" max="10" step="0.1" required>
 
                 <input type="hidden" id="imdbID" name="imdbID" value="">
-            
+
                 <input type="hidden" id="movieIndex" name="movieIndex" value="">
-            </div>
-            <div class="modal-footer">
+              </div>
+              <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" id="submitRating">Submit</button>
-          <button type="button" class="btn btn-info" id="rateclose" data-dismiss="modal">Close</button>
-        </div>
-          </form>
+                <button type="button" class="btn btn-info" id="rateclose" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-        <script src="/movieDetails.js"></script>
-        <script>
-            function handleRate() {
-        // Do only if the user is logged in
-        if (<%= !user %>) {
-            alert('Please login to rate the movie');
-            return;
-        }
-        // open the modal to rate the movie
-        document.getElementById('rateModal').style.display = 'block';
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="/movieDetails.js"></script>
+  <script>
+    function handleRate() {
+      // Do only if the user is logged in
+      if (<%= !user %>) {
+        alert('Please login to rate the movie');
+        return;
+      }
+      // open the modal to rate the movie
+      document.getElementById('rateModal').style.display = 'block';
 
-        document.getElementById('imdbID').value = "<%= movie.imdbID %>" ;
-        document.getElementById('movieIndex').value = <%= movieIndex %> ;
-        console.log("<%= user %>");
+      document.getElementById('imdbID').value = "<%= movie.imdbID %>";
+      document.getElementById('movieIndex').value = <%= movieIndex %>;
+      console.log("<%= user %>");
     }
     // on clicking X button or close button, close the modal
     document.querySelector('#rateclose').addEventListener('click', function() {
-        document.getElementById('rateModal').style.display = 'none';
+      document.getElementById('rateModal').style.display = 'none';
     });
     document.querySelector('.close').addEventListener('click', function() {
-        document.getElementById('rateModal').style.display = 'none';
+      document.getElementById('rateModal').style.display = 'none';
     });
     // on clicking outside the modal, close the modal
     window.onclick = function(event) {
-        if (event.target == document.getElementById('rateModal')) {
-            document.getElementById('rateModal').style.display = 'none';
-        }
+      if (event.target == document.getElementById('rateModal')) {
+        document.getElementById('rateModal').style.display = 'none';
+      }
     };
     document.getElementById('rateForm').addEventListener('submit', (event) => {
-        // Prevent the form from being submitted normally
-        event.preventDefault();
+      // Prevent the form from being submitted normally
+      event.preventDefault();
 
-        let rating = document.getElementById('rating').value;
-        console.log(`Rating: ${rating}`);
-        fetch('/rate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `rating=${encodeURIComponent(rating)}&imdbID=${encodeURIComponent("<%= movie.imdbID %>")}&movieIndex=${encodeURIComponent("<%= movieIndex %>")}`,
+      let rating = document.getElementById('rating').value;
+      console.log(`Rating: ${rating}`);
+      fetch('/rate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `rating=${encodeURIComponent(rating)}&imdbID=${encodeURIComponent("<%= movie.imdbID %>")}&movieIndex=${encodeURIComponent("<%= movieIndex %>")}`,
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('rateModal').style.display = 'none';
+          document.getElementById('rateModal').style.display = 'none';
         })
         .catch((error) => {
-            console.error('Error:', error);
+          console.error('Error:', error);
         });
     });
-
-</script>
-<script src="/search.js"></script>
+  </script>
+  <script src="/search.js"></script>
 
 
 </body>
