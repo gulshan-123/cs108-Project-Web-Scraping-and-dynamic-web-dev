@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/movieCards.css">
   <title>Movia</title>
 </head>
 
@@ -24,36 +23,11 @@
         <div class="row mb-3 text-center">
           <% for(let i = 0; i < myratings[user.email].length; i++) { %>
 
-          <div class="card border-primary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
-            <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= myratings[user.email][i].movie.Image['280w'] %>" alt="<%= myratings[user.email][i].movie.Title %>" onclick="handleClick(event, '<%= myratings[user.email][i].movie.imdbID %>')">
-            <div class="card-body">
-              <h5 class="card-title"><%= myratings[user.email][i].movie.Title %></h5>
-              <div class="card-text" style="text-align: left;">
-                <h6>Duration:&nbsp;<small class="text-muted"><%= myratings[user.email][i].movie.Metadata[1] %></small></h6>
-                <h6>Rating:&nbsp;<small class="text-muted"><%= myratings[user.email][i].movie.Rating[0] %>/10</small></h6>
-                <%- include('./../templates/avgRating.ejs', {movieTitle:myratings[user.email][i].movie.Title, myratings}) %>
-                <h6>Genre:&nbsp;<small class="text-muted"><%= myratings[user.email][i].movie.genre.join(', ') %></small></h6>
-                <h6>Director:&nbsp;<small class="text-muted"><%= myratings[user.email][i].movie.Director.join(', ') %></small></h6>
-                <h6>Stars:&nbsp;<small class="text-muted"><%= myratings[user.email][i].movie.Cast.join(', ') %></small></h6>
-                <div class="card-text" style="text-align: left;">
-                  <h6 class="mb-1">You Rated: <span class="badge badge-primary"><%= myratings[user.email][i].myrating %></span></h6>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer">
-              <button type="button" class="btn btn-primary btn-sm" onclick="handleClick(event, '<%= myratings[user.email][i].movie.imdbID %>')">More</button>
-            </div>
-          </div>
+          <%- include('./../templates/cardForRatedRecom.ejs', {movieToAdded : myratings[user.email][i].movie, i, myratings, filename:'userRated.ejs'}) %>
           <% } %>
         </div>
       </div>
     </div>
-    <script>
-      function handleClick(event, imdbID) {
-        window.location.href = `/movie/${imdbID}`;
-      }
-    </script>
-    <script src="/search.js"></script>
 
 </body>
 

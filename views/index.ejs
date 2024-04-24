@@ -5,23 +5,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/movieCards.css">
   <title>Movia</title>
 </head>
 
 <body style="background-color: #f8f9fa;">
   <!-- include the navbar from templates folder -->
   <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block", }) %>
+
+  <%# The main cards section %>
   <% let numContent = 24; %>
+  <div class="otherThanNav">
+    <div class="movie-container" style="margin: 20px;">
+      <div class="row mb-3 text-center">
+        <% for(let i = (pagenumber - 1) * numContent; i < Math.min(pagenumber * numContent, 250); i++) { %>
+        <%- include('./../templates/eachMovieCard.ejs', {movieToAdded : movies,i, myratings}) %>
+        <% } %>
+      </div>
+    </div>
+  </div>
 
-  <%- include('./../templates/movieCards.ejs', {movies:movies, pagenumber:pagenumber, numContent:numContent}) %>
-
+<%# Page Navigation numbering %>
   <% let numPages = Math.ceil(250 / numContent); %>
   <%- include('./pagination.ejs', { numPages: numPages, pagenumber: pagenumber }) %>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  <script src="/search.js"></script>
 
 </body>
 
