@@ -1,7 +1,7 @@
 <%# General pattern of cards %>
 <link rel="stylesheet" href="/movieCards.css">
-<div class="card border-primary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
-  <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= movieToAdded[i].Image['280w'] %>" alt="<%= movieToAdded[i].Title %>" onclick="handleClick(event, '<%= movieToAdded[i].imdbID %>')">
+<div class="card col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
+  <img class="card-img-top mx-auto d-block rounded" src="<%= movieToAdded[i].Image['280w'] %>" alt="<%= movieToAdded[i].Title %>" onclick="handleClick(event, '<%= movieToAdded[i].imdbID %>')">
   <div class="card-body">
     <h5 class="card-title" onclick="handleClick(event, '<%= movieToAdded[i].imdbID %>')"><%= movieToAdded[i].Title %></h5>
     <div class="card-text" style="text-align: left;">

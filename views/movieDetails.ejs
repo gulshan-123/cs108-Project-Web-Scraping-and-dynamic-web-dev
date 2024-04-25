@@ -16,7 +16,7 @@
 <body>
   <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block"}) %>
   <div class="otherThanNav">
-    <div class="card mb-3 m-3 pl-2 rounded cardOfDetails border-primary">
+    <div class="card mb-3 m-3 pl-2 rounded cardOfDetails">
       <div class="row no-gutters">
         <div class="col-md-4 mx-auto d-block m-2 rounded align-items-center">
           <img src="<%= movie.Image['280w'] %>" class="card-img img-fluid">
@@ -50,7 +50,7 @@
       </div>
     </div>
     <% let numPositiveReviews= Object.keys(positiveReviews).length %>
-    <div class="reviews mt-4 border-primary m-3">
+    <div class="reviews mt-4 m-3">
       <h2 class="text-center">Positive Reviews</h2>
       <% for (let i = 0; i < numPositiveReviews; i++) { 
                 let displayClass = i < 3 ? '' : 'd-none';
@@ -76,7 +76,7 @@
     </div>
     <div class="text-center m-3"><button class="btn btn-primary" onclick="showAllReviews('positive', <%= numPositiveReviews %>)">Read All Positive Reviews</button></div>
     <% let numNegativeReviews = Object.keys(negativeReviews).length %>
-    <div class="reviews mt-4 border-primary m-3">
+    <div class="reviews mt-4 m-3">
       <h2 class="text-center">Negative Reviews</h2>
       <% for (let i = 0; i < numNegativeReviews; i++) { 
         let displayClass = i < 3 ? '' : 'd-none';
@@ -104,7 +104,7 @@
       <button class="btn btn-primary" onclick="showAllReviews('negative', <%= numNegativeReviews %>)">Read All Negative Reviews</button>
     </div>
 
-    <div class="critic-reviews mt-4 border-primary m-3">
+    <div class="critic-reviews mt-4 m-3">
       <h2 class="text-center">Critic Reviews</h2>
       <% for (let i = 0; i < criticReviewItems.length; i++) {
         let reviewer = criticReviewItems[i].reviewer || "Anonymous";

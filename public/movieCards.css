@@ -1,7 +1,11 @@
 .card img:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
     transition: transform 0.5s;
-    cursor: pointer;
+    cursor: pointer;;
+}
+.card img{
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 /* when position of cards become just above the screen currently visble make it fade in */
 .card {
@@ -16,4 +20,19 @@
 .card-title:hover{
     cursor: pointer;
     color: rgb(16, 88, 88);
+}
+body {
+    background-color: #e3fef7cd !important;
+}
+.card{
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 10px;
+}
+.row{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
