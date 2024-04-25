@@ -10,23 +10,23 @@
       <h6>Director:&nbsp;<small class="text-muted"><%= movieToAdded[i].Director.join(', ') %></small></h6>
       <h6>Stars:&nbsp;<small class="text-muted"><%= movieToAdded[i].Cast.join(', ') %></small></h6>
     </div>
-</div>
-<div style="display: flex; justify-content: center;">
+  </div>
+  <div style="display: flex; justify-content: center;">
     <h6 style="margin-top: 0; margin-bottom: 0;">
       <small class="text-muted">
         <div style="display: flex; flex-wrap: wrap; padding-left: 0; margin-top: 0; margin-bottom: 0; justify-content: center;">
           <% movieToAdded[i].genre.forEach(function(genre) { %>
-            <a href="/genre?genre=<%= genre %>" class="ml-1">
-              <%= genre %>
-            </a>
+          <a href="/genre?genre=<%= genre %>" class="ml-1">
+            <%= genre %>
+          </a>
           <% }); %>
         </div>
       </small>
     </h6>
-</div>
-<div classs="d-flex justify-content-around">
-  <h6 class=" text-nowrap "><small><%= movieToAdded[i].Metadata[0] %><strong> | </strong><%= movieToAdded[i].Metadata[1] %><strong> | </strong><%= movieToAdded[i].Metadata[2] %></small></h6>
-</div>
+  </div>
+  <div classs="d-flex justify-content-around">
+    <h6 class=" text-nowrap "><small><%= movieToAdded[i].Metadata[0] %><strong> | </strong><%= movieToAdded[i].Metadata[1] %><strong> | </strong><%= movieToAdded[i].Metadata[2] %></small></h6>
+  </div>
   <div class="card-footer">
     <button type="button" class="btn btn-primary btn-sm" onclick="handleClick(event, '<%= movieToAdded[i].imdbID %>')">More</button>
   </div>

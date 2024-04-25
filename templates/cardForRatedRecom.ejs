@@ -13,9 +13,9 @@ Has to make it separately as the pattern of ratedmovies json and recommended mov
       <h6>Stars:&nbsp;<small class="text-muted"><%= movieToAdded.Cast.join(', ') %></small></h6>
 
       <% if (filename == 'userRated.ejs') { %>
-        <div class="card-text" style="text-align: left;">
-          <h6 class="mb-1">You Rated: <span class="badge badge-primary"><%= myratings[user.email][i].myrating %></span></h6>
-        </div>
+      <div class="card-text" style="text-align: left;">
+        <h6 class="mb-1">You Rated: <span class="badge badge-primary"><%= myratings[user.email][i].myrating %></span></h6>
+      </div>
       <% } %>
 
     </div>
@@ -25,24 +25,24 @@ Has to make it separately as the pattern of ratedmovies json and recommended mov
       <small class="text-muted">
         <div style="display: flex; flex-wrap: wrap; padding-left: 0; margin-top: 0; margin-bottom: 0; justify-content: center;">
           <% movieToAdded.genre.forEach(function(genre) { %>
-            <a href="/genre?genre=<%= genre %>" class="ml-1 genre-link">
-              <%= genre %>
-            </a>
+          <a href="/genre?genre=<%= genre %>" class="ml-1 genre-link">
+            <%= genre %>
+          </a>
           <% }); %>
         </div>
       </small>
     </h6>
-</div>
-<div classs="d-flex justify-content-around">
-  <h6 class=" text-nowrap "><small><%= movieToAdded.Metadata[0] %><strong> | </strong><%= movieToAdded.Metadata[1] %><strong> | </strong><%= movieToAdded.Metadata[2] %></small></h6>
-</div>
+  </div>
+  <div classs="d-flex justify-content-around">
+    <h6 class=" text-nowrap "><small><%= movieToAdded.Metadata[0] %><strong> | </strong><%= movieToAdded.Metadata[1] %><strong> | </strong><%= movieToAdded.Metadata[2] %></small></h6>
+  </div>
   <div class="card-footer">
     <button type="button" class="btn btn-primary btn-sm" onclick="handleClick(event, '<%= movieToAdded.imdbID %>')">More</button>
   </div>
 </div>
 
 <script>
-    function handleClick(event, imdbID) {
-      window.location.href = `/movie/${imdbID}`;
-    }
-  </script>
+  function handleClick(event, imdbID) {
+    window.location.href = `/movie/${imdbID}`;
+  }
+</script>
