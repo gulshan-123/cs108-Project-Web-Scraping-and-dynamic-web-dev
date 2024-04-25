@@ -1,26 +1,40 @@
 <%# General pattern of cards %>
 <link rel="stylesheet" href="/movieCards.css">
 <div class="card border-primary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
-    <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= movieToAdded[i].Image['280w'] %>" alt="<%= movieToAdded[i].Title %>" onclick="handleClick(event, '<%= movieToAdded[i].imdbID %>')">
-    <div class="card-body">
-        <h5 class="card-title"><%= movieToAdded[i].Title %></h5>
-        <div class="card-text" style="text-align: left;">
-            <h6>Duration:&nbsp;<small class="text-muted"><%= movieToAdded[i].Metadata[1] %></small></h6>
-            <h6>Rating:&nbsp;<small class="text-muted"><%= movieToAdded[i].Rating[0] %>/10</small></h6>
-            <%- include('avgRating.ejs' ,{myratings, movieTitle:movieToAdded[i].Title}) %>
-            <h6>Genre:&nbsp;<small class="text-muted"><%= movieToAdded[i].genre.join(', ') %></small></h6>
-            <h6>Director:&nbsp;<small class="text-muted"><%= movieToAdded[i].Director.join(', ') %></small></h6>
-            <h6>Stars:&nbsp;<small class="text-muted"><%= movieToAdded[i].Cast.join(', ') %></small></h6>
+  <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= movieToAdded[i].Image['280w'] %>" alt="<%= movieToAdded[i].Title %>" onclick="handleClick(event, '<%= movieToAdded[i].imdbID %>')">
+  <div class="card-body">
+    <h5 class="card-title"><%= movieToAdded[i].Title %></h5>
+    <div class="card-text" style="text-align: left;">
+      <h6>Rating:&nbsp;<small class="text-muted"><%= movieToAdded[i].Rating[0] %>/10</small></h6>
+      <%- include('avgRating.ejs' ,{myratings, movieTitle:movieToAdded[i].Title}) %>
+      <h6>Director:&nbsp;<small class="text-muted"><%= movieToAdded[i].Director.join(', ') %></small></h6>
+      <h6>Stars:&nbsp;<small class="text-muted"><%= movieToAdded[i].Cast.join(', ') %></small></h6>
+    </div>
+</div>
+<div class="d-flex justify-content-around">
+    <h6 class="text-center" style="margin-top: 0; margin-bottom: 0;">
+      <small class="text-muted">
+        <div style="display: flex; flex-wrap: nowrap; padding-left: 0; margin-top: 0; margin-bottom: 0;">
+          <% movieToAdded[i].genre.forEach(function(genre) { %>
+            <a href="/genre?genre=<%= genre %>" class=" ml-1 genre-link">
+              <%= genre %>
+            </a>
+          <% }); %>
         </div>
-    </div>
-    <div class="card-footer">
-        <button type="button" class="btn btn-primary btn-sm" onclick="handleClick(event, '<%= movieToAdded[i].imdbID %>')">More</button>
-    </div>
-        
+      </small>
+    </h6>
+</div>
+<div classs="d-flex justify-content-around">
+  <h6 class=" text-nowrap "><small><%= movieToAdded[i].Metadata[0] %><strong> | </strong><%= movieToAdded[i].Metadata[1] %><strong> | </strong><%= movieToAdded[i].Metadata[2] %></small></h6>
+</div>
+  <div class="card-footer">
+    <button type="button" class="btn btn-primary btn-sm" onclick="handleClick(event, '<%= movieToAdded[i].imdbID %>')">More</button>
+  </div>
+
 </div>
 
 <script>
-    function handleClick(event, imdbID) {
-      window.location.href = `/movie/${imdbID}`;
-    }
-  </script>
+  function handleClick(event, imdbID) {
+    window.location.href = `/movie/${imdbID}`;
+  }
+</script>

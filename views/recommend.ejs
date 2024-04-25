@@ -35,7 +35,16 @@
         union = set1.length + set2.length - intersection
         return intersection / Math.max(set1.length, set2.length)
     }
+   %>
+  <%
 
+  if (!myratings[user.email]) {
+    %>
+    <div class="alert alert-info text-center" role="alert">
+      First Rate some movies.
+    </div>
+  <% } else { %>
+  <%
     recommendedMovies = []
     for (let i = 0; i < movies.length; i++) {
         movie = movies[i]
@@ -68,7 +77,6 @@ recommendedMovies = recommendedMovies.filter((movie) => {
     return !myratings[user.email].some((ratedMovie) => ratedMovie.movie.Title === movie.movie.Title)
 })
 %>
-
   <div class="otherThanNav">
     <div class="container">
       <h1 class="text-center mt-3">Movies</h1>
@@ -76,16 +84,17 @@ recommendedMovies = recommendedMovies.filter((movie) => {
         <div class="col-12">
           <h2 class="text-center">Recommended Movies</h2>
         </div>
+        </div>
       </div>
-      <div class="movie-container">
+      <div class="movie-container" style="margin: 20px;">
         <div class="row mb-3 text-center">
           <% for(let i = 0; i < 6; i++) { %>
           <%- include('./../templates/cardForRatedRecom.ejs', {movieToAdded : recommendedMovies[i].movie, i, myratings, filename:'recommend.ejs'}) %>
           <% } %>
         </div>
       </div>
-    </div>
-
+    <% } %>
+  
 </body>
 
 </html>

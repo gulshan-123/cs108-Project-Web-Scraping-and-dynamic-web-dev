@@ -18,17 +18,23 @@
         <div class="col-12">
           <h2 class="text-center">Rated By You</h2>
         </div>
+        </div>
       </div>
-      <div class="movie-container">
-        <div class="row mb-3 text-center">
+      <% if (!myratings[user.email]) { %>
+        <div class="alert alert-info" role="alert">
+          You have not rated any movies yet.
+        </div>
+      <% } else {  %>
+      <div class="movie-container" style="margin: 20px;">
+        <div class="row mb-3 text-center justify-content-center">
           <% for(let i = 0; i < myratings[user.email].length; i++) { %>
 
           <%- include('./../templates/cardForRatedRecom.ejs', {movieToAdded : myratings[user.email][i].movie, i, myratings, filename:'userRated.ejs'}) %>
           <% } %>
         </div>
       </div>
-    </div>
+      <% } %>
+
 
 </body>
-
 </html>
