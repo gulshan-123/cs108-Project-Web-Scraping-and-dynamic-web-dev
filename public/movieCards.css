@@ -13,3 +13,7 @@
         opacity: 1;
     }
 }
+.card-title:hover{
+    cursor: pointer;
+    color: rgb(16, 88, 88);
+}

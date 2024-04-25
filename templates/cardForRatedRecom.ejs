@@ -5,7 +5,7 @@ Has to make it separately as the pattern of ratedmovies json and recommended mov
 <div class="card border-primary col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
   <img class="card-img-top mx-auto d-block m-2 rounded" src="<%= movieToAdded.Image['280w'] %>" alt="<%= movieToAdded.Title %>" onclick="handleClick(event, '<%= movieToAdded.imdbID %>')">
   <div class="card-body">
-    <h5 class="card-title"><%= movieToAdded.Title %></h5>
+    <h5 class="card-title" onclick="handleClick(event, '<%= movieToAdded.imdbID %>')"><%= movieToAdded.Title %></h5>
     <div class="card-text" style="text-align: left;">
       <h6>Rating:&nbsp;<small class="text-muted"><%= movieToAdded.Rating[0] %>/10</small></h6>
       <%- include('./../templates/avgRating.ejs', {movieTitle:movieToAdded.Title, myratings}) %>
