@@ -19,11 +19,11 @@
     <div class="card mb-3 m-3 pl-2 rounded cardOfDetails">
       <div class="row no-gutters">
         <div class="col-md-4 mx-auto d-block m-2 rounded align-items-center">
-          <img src="<%= movie.Image['280w'] %>" class="card-img img-fluid">
+          <img src="<%= movie.Image['280w'] %>" class="card-img img-fluid"> <%# Image poster %>
         </div>
         <div class="col-md-8">
           <div class="col-md-8 mx-auto d-block">
-            <div class="card-body">
+            <div class="card-body"> <%# Movie details %>
               <a href="https://www.imdb.com/title/<%= movie.imdbID %>" class="btn btn-primary d-md-none mb-3">Visit IMDB Site</a>
               <button type="button" class="btn btn-outline-primary btn-sm mb-3" id="RateBtn<%= movieIndex %>" onclick="handleRate()">Rate</button>
               <h5 class="card-title">
@@ -37,12 +37,14 @@
               <p class="card-text"><strong>Genre:&nbsp;</strong><%= movie.genre.join(', ') %> </p>
               <p class="card-text"><strong>Year:&nbsp;</strong> <%= movie.Metadata[0] %> | <strong>Duration:&nbsp;</strong><%= movie.Metadata[1] %>&nbsp; | <%= movie.Metadata[2] %></p>
               <p class="card-text"><strong>Plot: </strong><%= movie.Info %></p>
-              <div class="embed-responsive embed-responsive-16by9">
+              <div class="embed-responsive embed-responsive-16by9"> <%# Trailer %>
                 <iframe width="1210" height="480" src="https://www.youtube.com/embed/<%= new URL(movie.Trailer).searchParams.get('v') %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;
                                                 picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
               </div>
             </div>
           </div>
+
+          <%# The button will be displayed in corner on big sizes %>
           <a href="https://www.imdb.com/title/<%= movie.imdbID %>" class="btn btn-primary position-absolute visit-site-btn d-none d-md-block" style="top: 10px; right: 10px;">Visit IMDB Site</a>
 
 
@@ -52,10 +54,11 @@
     <% let numPositiveReviews= Object.keys(positiveReviews).length %>
     <div class="reviews mt-4 m-3">
       <h2 class="text-center">Positive Reviews</h2>
+      <%# Initially only 3 reviews will be shown, to see all reviews, click on button %>
       <% for (let i = 0; i < numPositiveReviews; i++) { 
-                let displayClass = i < 3 ? '' : 'd-none';
+            let displayClass = i < 3 ? '' : 'd-none'; 
             let reviewText = positiveReviews[i].reviews;
-            let shortText = reviewText.length > 100 ? reviewText.substring(0, 100) + '...' : reviewText; 
+            let shortText = reviewText.length > 100 ? reviewText.substring(0, 100) + '...' : reviewText;
             %>
 
       <figure class="<%= displayClass %>" id="positive-review-<%= i %>">
@@ -63,7 +66,7 @@
         <blockquote class="blockquote">
           <p class="short-text"><%= shortText %></p>
           <p class="full-text d-none"><%= reviewText %></p>
-          <button class="btn btn-link read-more">Read More</button>
+          <button class="btn btn-link read-more">Read More</button> <%# Button to read more, Functionality added in js file: movieDetails.js %>
         </blockquote>
         <figcaption class="blockquote-footer">
           Metacritic user <cite title="username"><%= positiveReviews[i].userNames  %></cite> <strong>10/10</strong>
@@ -188,7 +191,7 @@
       }
     };
     document.getElementById('rateForm').addEventListener('submit', (event) => {
-      // Prevent the form from being submitted normally
+      // Prevent the form from being submitted to the server, submit it using fetch.
       event.preventDefault();
 
       let rating = document.getElementById('rating').value;

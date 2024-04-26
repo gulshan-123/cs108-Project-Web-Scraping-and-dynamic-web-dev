@@ -9,6 +9,8 @@
 </head>
 
 <body>
+<%# To search movies: First split the movie title, then compare word by word to the search query. %>
+<%# Shows only one movie per search %>
   <% function bigramize(title) {
         let bigrams = [];
         for (let i = 0; i < title.length - 1; i++) {

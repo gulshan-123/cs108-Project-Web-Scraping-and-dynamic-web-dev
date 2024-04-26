@@ -1,4 +1,4 @@
-<%# Card to show the Rated in all of the cards %>
+<%# Card to show the Rated(Average Rating of our all sites user) in all of the cards %>
 
 <%
           let total = 0;
@@ -8,8 +8,8 @@
           for (let user in myratings) {
               // For each user, iterate over their rated movies
               for (let rating of myratings[user]) {
-                  // If the movie matches the specific movie, add the rating to the total and increment the count
-                  if (rating.movie.Title === specificMovie) {
+                // if movie found in the rated movies, then add the rating to total and increment the count
+                  if (rating.movie.Title === specificMovie) { 
                       total += parseFloat(rating.myrating);
                       count++;
                   }
@@ -17,7 +17,7 @@
           }
       
           let average;
-          if (count === 0) {
+          if (count === 0) { // corner case
               average = 0;
           }
           else {

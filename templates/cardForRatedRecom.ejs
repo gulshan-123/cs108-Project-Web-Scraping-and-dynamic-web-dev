@@ -1,17 +1,23 @@
 <%# Cards for rated and recommended movies,
 Has to make it separately as the pattern of ratedmovies json and recommended movies are similar but different from other %>
-<link rel="stylesheet" href="/movieCards.css">
+<link rel="stylesheet" href="/movieCards.css"> 
+<%# Added styles %>
 
 <div class="card col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
   <img class="card-img-top mx-auto d-block rounded" src="<%= movieToAdded.Image['280w'] %>" alt="<%= movieToAdded.Title %>" onclick="handleClick(event, '<%= movieToAdded.imdbID %>')">
+  <%# handleClick is defined below: It basically show the movieDetail page %>
   <div class="card-body">
     <h5 class="card-title" onclick="handleClick(event, '<%= movieToAdded.imdbID %>')"><%= movieToAdded.Title %></h5>
     <div class="card-text" style="text-align: left;">
       <h6>Rating:&nbsp;<small class="text-muted"><%= movieToAdded.Rating[0] %>/10</small></h6>
+
       <%- include('./../templates/avgRating.ejs', {movieTitle:movieToAdded.Title, myratings}) %>
+      <%# Included the average rating of all user %>
+
       <h6>Director:&nbsp;<small class="text-muted"><%= movieToAdded.Director.join(', ') %></small></h6>
       <h6>Stars:&nbsp;<small class="text-muted"><%= movieToAdded.Cast.join(', ') %></small></h6>
 
+      <%# To show your ratings in the rate tab %>
       <% if (filename == 'userRated.ejs') { %>
       <div class="card-text" style="text-align: left;">
         <h6 class="mb-1">You Rated: <span class="badge badge-primary"><%= myratings[user.email][i].myrating %></span></h6>
@@ -20,6 +26,8 @@ Has to make it separately as the pattern of ratedmovies json and recommended mov
 
     </div>
   </div>
+
+  <%# Adding the genre %>
   <div style="display: flex; justify-content: center;">
     <h6 style="margin-top: 0; margin-bottom: 0;">
       <small class="text-muted">
@@ -33,9 +41,11 @@ Has to make it separately as the pattern of ratedmovies json and recommended mov
       </small>
     </h6>
   </div>
+
   <div classs="d-flex justify-content-around">
     <h6 class=" text-nowrap "><small><%= movieToAdded.Metadata[0] %><strong> | </strong><%= movieToAdded.Metadata[1] %><strong> | </strong><%= movieToAdded.Metadata[2] %></small></h6>
   </div>
+<%# More Button:- %>
   <div class="card-footer">
     <button type="button" class="btn btn-primary btn-sm" onclick="handleClick(event, '<%= movieToAdded.imdbID %>')">More</button>
   </div>

@@ -1,3 +1,5 @@
+//purpose: To handle to the Show ALl review button on positive and negative reviews
+
 function showAllReviews(type, numReviews) {
     for (let i = 3; i < numReviews; i++) {
         let reviewElement = document.getElementById(`${type}-review-${i}`);
@@ -13,6 +15,7 @@ function showAllReviews(type, numReviews) {
     event.target.style.display = 'none';
 }
 
+// purpose: To handle the Read More button on the positive and negative reviews`
     document.addEventListener('click', function(event) {
         if (event.target.matches('.read-more')) {
             let review = event.target.closest('.blockquote');

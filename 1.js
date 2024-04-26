@@ -6,19 +6,19 @@ const FileStore = require('session-file-store')(session);
 const port = 3000
 
 app.set('view engine', 'ejs'); // Set EJS as view engine
-app.use(express.static('public'));
-app.use(express.urlencoded({ extended: true }));
-app.use(session({
+app.use(express.static('public'));// Set public folder as static folder
+app.use(express.urlencoded({ extended: true }));// To parse the form data
+app.use(session({// To create a session object so that we can store the user object in it which is logged in
     store: new FileStore(),
-    secret: 'gulshan@123',
+    secret: 'nobody-can-guess-this-secret',
     resave: false,
     saveUninitialized: true
 }));
-app.use((req, res, next) => {
+app.use((req, res, next) => { // Middleware to pass the session object to all routes in form of res.locals
     res.locals.user = req.session.user;
     next();
 });
-app.use((req, res, next) => {
+app.use((req, res, next) => { // Middleware to read the JSON files and pass the data to all routes
     req.movies = JSON.parse(fs.readFileSync('./data/movies.json', 'utf8'));
     req.userReviews = JSON.parse(fs.readFileSync('./data/userReviews.json', 'utf8'));
     req.criticReviews = JSON.parse(fs.readFileSync('./data/criticReviews.json', 'utf8'));
@@ -26,22 +26,24 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { // Home route
     // go to /1
     res.redirect('/1');
 });
-app.get('/login', (req, res) => {
+app.get('/login', (req, res) => { // handle login button
     res.render('login') // Render login.ejs file
 })
-app.get('/signup', (req, res) => {
+app.get('/signup', (req, res) => { // handle signup button
     res.render('signup') // Render register.ejs file
 })
-app.get('/:slug([0-9]+)', (req, res) => {
+app.get('/:slug([0-9]+)', (req, res) => { // do this only if the slug is a number, :slug is a route parameter
+    //handle index page and pagination
     var pagenumber = parseInt(req.params.slug, 10);
     res.render('index', { movies: req.movies, userReviews: req.userReviews, criticReviews: req.criticReviews, pagenumber: pagenumber, myratings: req.myratings }) // Render 1.ejs file
 })
 
-app.get('/movie/:id', function (req, res) {
+app.get('/movie/:id', function (req, res) { // :id is a route parameter
+    // handle movie details page
     let movies = req.movies;
     let userReviews = req.userReviews;
     let criticReviews = req.criticReviews;
@@ -65,7 +67,7 @@ app.get('/movie/:id', function (req, res) {
     });
 });
 
-app.post('/rate', (req, res) => {
+app.post('/rate', (req, res) => {// handle the rate button on movie details page
     let movies = req.movies;
 
     let rating = req.body.rating;
@@ -105,12 +107,12 @@ app.post('/rate', (req, res) => {
     });
 });
 
-app.get('/search', (req, res) => {
+app.get('/search', (req, res) => { // handle search button
     let movies = req.movies;
     let searchQuery = req.query.q;
     res.render('search', { movies: movies, searchQuery: searchQuery, myratings: req.myratings });
 });
-app.get('/genre', (req, res) => {
+app.get('/genre', (req, res) => { // handle genre dropdown
     let movies = req.movies;
 
     const genre = req.query.genre.replace(/\b\w/g, function (char) {
@@ -130,7 +132,7 @@ app.get('/genre', (req, res) => {
 
 });
 
-app.post('/handleSignup', (req, res) => {
+app.post('/handleSignup', (req, res) => { // what to do when the user submits the signup form
     const { email, password } = req.body;
 
     fs.readFile('./data/users.json', (err, data) => {
@@ -168,7 +170,7 @@ app.post('/handleSignup', (req, res) => {
     });
 });
 
-app.post('/handleLogin', (req, res) => {
+app.post('/handleLogin', (req, res) => { // what to do when the user submits the login form
     if (req.session.user) {
         return res.send(`
             <p>You are already logged in. You will be redirected in 1 seconds...</p>
@@ -221,20 +223,20 @@ app.post('/handleLogin', (req, res) => {
     });
 });
 
-app.get('/recommend', (req, res) => {
+app.get('/recommend', (req, res) => { // handle the recommend button
     // pass the ./data/myratings.json file to the recommend.ejs file
     let myratings = JSON.parse(fs.readFileSync('./data/myratings.json', 'utf8'));
     res.render('recommend', { myratings: myratings, movies: req.movies, });
 });
 
-app.get('/userRated', (req, res) => {
+app.get('/userRated', (req, res) => { // handle what to do when clicked on Rate tab on navbar
     let myratings = JSON.parse(fs.readFileSync('./data/myratings.json', 'utf8'));
     // console.log(myratings[req.session.user.email][0].movie.Title);
     res.render('userRated', { myratings: myratings, movies: req.movies });
 });
 
-app.get('/logout', (req, res) => {
-    req.session.destroy();
+app.get('/logout', (req, res) => { // handle the logout button
+    req.session.destroy(); // it will destroy the session object
     res.redirect('/');
 })
 app.listen(port, () => {

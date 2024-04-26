@@ -1,4 +1,5 @@
 <%# General pattern of cards %>
+<%# It will take variable as the array of movies to be shown and the index array which is to be shown. %>
 <link rel="stylesheet" href="/movieCards.css">
 <div class="card col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
   <img class="card-img-top mx-auto d-block rounded" src="<%= movieToAdded[i].Image['280w'] %>" alt="<%= movieToAdded[i].Title %>" onclick="handleClick(event, '<%= movieToAdded[i].imdbID %>')">

@@ -9,11 +9,13 @@
 </head>
 
 <body style="background-color: #f8f9fa;">
+
+  <%# This is the homepage which will be shown... %>
   <!-- include the navbar from templates folder -->
   <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block", }) %>
 
   <%# The main cards section %>
-  <% let numContent = 20; %>
+  <% let numContent = 20; %> <%# 20 contents per page %>
   <div class="otherThanNav">
     <div class="movie-container" style="margin: 20px;">
       <div class="row mb-3 text-center">

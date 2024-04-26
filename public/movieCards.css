@@ -1,8 +1,21 @@
+/**
+ * 
+ * 
+ * This CSS file contains styles for movie cards in a web page.
+ * 
+ * The styles include:
+ * - Hover effect on card images
+ * - Border radius and box shadow for card images
+ * - Fade-in effect for card elements
+ * - Hover effect on card titles
+ * - Background color for the body
+ * - Styling for the card container
+ * - Flexbox layout for the row container
+ */
 .card img:hover {
     transform: scale(1.03);
     transition: transform 0.5s;
     cursor: pointer;
-    ;
 }
 
 .card img {
@@ -10,7 +23,7 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
-/* when position of cards become just above the screen currently visble make it fade in */
+/* To add some fadeIn effect when card is loaded */
 .card {
     opacity: 0;
     animation: fadeIn 1s forwards;

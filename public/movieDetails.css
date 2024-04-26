@@ -1,23 +1,32 @@
+/* 
+ * Contains the styles for the movie details page.
+*/
+
+/* Styles for the movie image */
+/* 
+*/
 .img {
     max-height: 270px;
     object-fit: cover;
     border: 10px solid black;
 }
 
+/* Styles for the "Visit Site" button */
 .visit-site-btn {
     top: 10px;
     right: 10px;
 }
 
+/* Media query for smaller screens: The button will go just below the image on smaller devices but will remain on the coner of page on larger devices */
 @media (max-width: 768px) {
     .visit-site-btn {
         top: auto;
         bottom: 10px;
         right: 10px;
     }
-
 }
 
+/* Styles for the reviews section */
 .reviews {
     border: 1px solid #ddd;
     padding: 20px;
@@ -26,25 +35,30 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
+/* Styles for individual reviews */
 .review {
     border-bottom: 1px solid #ddd;
     padding-bottom: 20px;
     margin-bottom: 20px;
 }
 
+/* Styles for the last review in the list */
 .review:last-child {
     border-bottom: none;
 }
 
+/* Styles for the review title */
 .review h3 {
     font-size: 1.2em;
     margin-bottom: 10px;
 }
 
+/* Styles for the review content */
 .review p {
     margin-bottom: 10px;
 }
 
+/* Styles for the critic reviews section */
 .critic-reviews {
     border: 1px solid #ddd;
     padding: 20px;
@@ -53,25 +67,30 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
+/* Styles for individual critic reviews */
 .critic-reviews .review {
     border-bottom: 1px solid #ddd;
     padding-bottom: 20px;
     margin-bottom: 20px;
 }
 
+/* Styles for the last critic review in the list */
 .critic-reviews .review:last-child {
     border-bottom: none;
 }
 
+/* Styles for the critic review title */
 .critic-reviews .review h3 {
     font-size: 1.2em;
     margin-bottom: 10px;
 }
 
+/* Styles for the critic review content */
 .critic-reviews .review p {
     margin-bottom: 10px;
 }
 
+/* Styles for the card element */
 .card {
     background-color: #f7f7f7;
     /* border-radius: 10px; */

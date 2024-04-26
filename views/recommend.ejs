@@ -9,6 +9,24 @@
 </head>
 
 <body>
+  <%# Algorithm:
+if user has not rated any movies
+    display message asking user to rate some movies
+else
+    for each movie in the database
+        initialize movieSimilarity to 0
+        for each movie the user has rated
+            calculate genreSimilarityScore using jacardSimilarity
+            calculate castSimilarityScore using jacardSimilarity
+            calculate directorSimilarityScore using jacardSimilarity
+            add weighted sum of similarity scores to movieSimilarity
+        add movie's rating to movieSimilarity
+        add movie and movieSimilarity to recommendedMovies
+    sort recommendedMovies in descending order of similarity
+    filter out movies the user has already rated
+    display top 10 recommendedMovies on the page
+end if
+   %>
   <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block", }) %>
   <%
     // jacard similarity
@@ -52,29 +70,34 @@
         for (let j = 0; j < myratings[user.email].length; j++) {
             ratedMovie = myratings[user.email][j].movie
 
+            // Calculate genre silmilarity
             genre1 = movie.genre
             genre2 = ratedMovie.genre
             genreSimilarityScore = jacardSimilarity(genre1, genre2)
 
+            //calculate cast similarity
             cast1 = movie.Cast
             cast2 = ratedMovie.Cast
             castSimilarityScore = jacardSimilarity(cast1, cast2)
 
+            //calculate director similarity
             director1 = movie.Director
             director2 = ratedMovie.Director
             directorSimilarityScore = jacardSimilarity(director1, director2)
 
+            //weighted sum of similarity scores
             movieSimilarity += 0.2*(myratings[user.email][j].myrating - 5.5)*(2.5*directorSimilarityScore + 3*castSimilarityScore + 4.5* genreSimilarityScore)/10 //scaling it to 1
     }
+    //add movie's rating to movieSimilarity
     movieSimilarity += movie.Rating[0]/20 
     // console.log(movie.Title, movieSimilarity)
     recommendedMovies.push({movie: movie, similarity: movieSimilarity})
     
 }
-recommendedMovies.sort((a, b) => b.similarity - a.similarity) //sort in descending order
+recommendedMovies.sort((a, b) => b.similarity - a.similarity) //sort in descending order based on similarity
 
 recommendedMovies = recommendedMovies.filter((movie) => {
-    return !myratings[user.email].some((ratedMovie) => ratedMovie.movie.Title === movie.movie.Title)
+    return !myratings[user.email].some((ratedMovie) => ratedMovie.movie.Title === movie.movie.Title) // filter out movies the user has already rated by the user
 })
 %>
   <div class="otherThanNav">

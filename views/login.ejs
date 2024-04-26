@@ -42,6 +42,8 @@
 </head>
 
 <body>
+  <%# Login page: %>
+
   <%- include('./../templates/navbar.ejs', {loginDisplay:"none", signupDisplay:"block"}) %>
   <div class="container py-5">
     <div class="row justify-content-center">
@@ -62,7 +64,7 @@
                 <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
               </div>
               <button type="submit" class="btn btn-primary btn-block">Submit</button>
-              <span id="errorMessage" class="text-danger d-block text-center mt-3"></span>
+              <span id="errorMessage" class="text-danger d-block text-center mt-3"></span> <%# Error message div for future purpose %>
             </form>
           </div>
         </div>
