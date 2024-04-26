@@ -1,5 +1,5 @@
 <nav aria-label="Page navigation">
-  <ul class="pagination pagination-sm justify-content-center">
+  <ul class="pagination pagination-sm justify-content-center" style="overflow-x: auto; display: flex; flex-wrap: nowrap;">
     <% for(let i = 1; i <= numPages; i++) { %>
     <li class="page-item <%= i === pagenumber ? 'active' : '' %>">
       <a class="page-link" href="/<%= i %>"><%= i %></a>

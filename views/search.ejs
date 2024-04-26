@@ -40,7 +40,7 @@
             // Check if the search query is a substring of the movie title
             if (cleanedTitle.includes(searchQuery.toLowerCase().replace(/[\s]/g, '')) || cleanedTitle.includes(searchQuery.toLowerCase()) ) {
                 similarMovies.push(movies[i]);
-            } else if (similarity > 0.3) {
+            } else if (similarity >= 0) {
                 similarMovies.push(movies[i]);
             }
     
@@ -50,12 +50,12 @@
 
             }
         }
-        return similarMovies;
+        return similarMovies, mostSimilarMovie;
     }
     %>
   <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block"}) %>
-  <% let similarMovies = searchMovies(searchQuery); %>
-  <% if(similarMovies.length == 0) { %>
+  <% let similarMovies, mostSimilarMovie = searchMovies(searchQuery); %>
+  <% if(!similarMovies) { %>
   <h1 class="text-center mt-3">No movies found for <%= searchQuery %></h1>
   <% } else { %>
   <h1 class="text-center mt-3">Search results for <%= searchQuery %></h1>
@@ -65,8 +65,8 @@
 
       <div class="movie-container">
         <div class="row mb-3 text-center justify-content-center">
-          <% for(let i = 0; i < similarMovies.length; i++) { %>
-            <%- include('./../templates/eachMovieCard.ejs', {movieToAdded : similarMovies, i, myratings}) %>
+          <% for(let i = 0; i < 1; i++) { %>
+            <%- include('./../templates/eachMovieCard.ejs', {movieToAdded : [mostSimilarMovie], i:1, myratings}) %>
           <% } %>
         </div>
       </div>
