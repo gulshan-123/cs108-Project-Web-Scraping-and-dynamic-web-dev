@@ -24,63 +24,95 @@
         const union = new Set([...set1, ...set2]);
         return intersection.size / union.size;
     }
-    
-    function searchMovies(searchQuery) {
-        let bigramSearchQuery = bigramize(searchQuery.toLowerCase());
-    
-        let similarMovies = [];
-        let maxSimilarity = 0;
-        let mostSimilarMovie = null;
-    
-        for (let i = 0; i < movies.length; i++) {
-            let cleanedTitle = movies[i].Title.toLowerCase().replace(/[^a-z0-9\s]/gi, '');
-            let bigramTitle = bigramize(cleanedTitle);
-            let similarity = jaccard_similarity(bigramSearchQuery, bigramTitle);
-    
-            // Check if the search query is a substring of the movie title
-            if (cleanedTitle.includes(searchQuery.toLowerCase().replace(/[\s]/g, '')) || cleanedTitle.includes(searchQuery.toLowerCase()) ) {
-                similarMovies.push(movies[i]);
-            } else if (similarity >= 0) {
-                similarMovies.push(movies[i]);
-            }
-    
-            if (similarity > maxSimilarity) {
-                maxSimilarity = similarity;
-                mostSimilarMovie = movies[i];
+    function correctQuery(searchQuery) {
+    let searchWords = searchQuery.toLowerCase().split(' ');
 
+    let mostSimilarWords = searchWords.map(() => ({ word: null, similarity: 0 }));
+
+    for (let i = 0; i < movies.length; i++) {
+        let titleWords = movies[i].Title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').split(' ');
+
+        for (let j = 0; j < searchWords.length; j++) {
+            for (let k = 0; k < titleWords.length; k++) {
+              if (titleWords[k].length <= 3) {
+                    continue;
+                }
+                let bigramSearchWord = bigramize(searchWords[j]);
+                let bigramTitleWord = bigramize(titleWords[k]);
+                let wordSimilarity = jaccard_similarity(bigramSearchWord, bigramTitleWord);
+
+                if (wordSimilarity > mostSimilarWords[j].similarity) {
+                    mostSimilarWords[j] = { word: titleWords[k], similarity: wordSimilarity };
+                }
             }
         }
-        return similarMovies, mostSimilarMovie;
     }
-    %>
-  <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block"}) %>
-  <% let similarMovies, mostSimilarMovie = searchMovies(searchQuery); %>
-  <% if(!similarMovies) { %>
-  <h1 class="text-center mt-3">No movies found for <%= searchQuery %></h1>
-  <% } else { %>
-  <h1 class="text-center mt-3">Search results for <%= searchQuery %></h1>
 
-  <div class="otherThanNav">
-    <div class="container">
+    let correctedQuery = mostSimilarWords.map(item => item.word ? item.word : searchWords[mostSimilarWords.indexOf(item)]);
 
-      <div class="movie-container">
-        <div class="row mb-3 text-center justify-content-center">
-          <% for(let i = 0; i < 1; i++) { %>
-            <%- include('./../templates/eachMovieCard.ejs', {movieToAdded : [mostSimilarMovie], i:1, myratings}) %>
-          <% } %>
-        </div>
-      </div>
-    </div>
-    <script>
-      function handleClick(event, imdbID) {
-        window.location.href = `/movie/${imdbID}`;
-      }
-    </script>
+    return correctedQuery.join(' ');
+}
+function findMovie(correctedQuery) {
+    let queryWords = correctedQuery.toLowerCase().split(' ');
+
+    let bestMatch = null;
+    let maxSimilarity = 0;
+
+    for (let i = 0; i < movies.length; i++) {
+        let titleWords = movies[i].Title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').split(' ');
+
+        let matchingWords = queryWords.filter(word => titleWords.includes(word));
+
+        if (matchingWords.length / queryWords.length >= 0.8) {
+            return movies[i];
+        }
+
+        let bigramQueryWords = queryWords.map(word => bigramize(word));
+        let bigramTitleWords = titleWords.map(word => bigramize(word));
+
+        let totalSimilarity = 0;
+        for (let j = 0; j < bigramQueryWords.length; j++) {
+            let maxWordSimilarity = 0;
+            for (let k = 0; k < bigramTitleWords.length; k++) {
+                let wordSimilarity = jaccard_similarity(bigramQueryWords[j], bigramTitleWords[k]);
+
+                if (wordSimilarity > maxWordSimilarity) {
+                    maxWordSimilarity = wordSimilarity;
+                }
+            }
+            totalSimilarity += maxWordSimilarity;
+        }
+
+        let averageSimilarity = totalSimilarity / queryWords.length;
+
+        if (averageSimilarity > maxSimilarity) {
+            maxSimilarity = averageSimilarity;
+            bestMatch = movies[i];
+        }
+    }
+
+    return bestMatch;
+}
+
+%>
+<% 
+// checking
+let correctedQuery = correctQuery(searchQuery);
+let movieToAdded = findMovie(correctedQuery);
+// console.log(correctedQuery);
+// console.log(movieToAdded.Image['280w']);
+%>
+<%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block"}) %>
+<div class="movie-container" style="margin: 20px;">
+  <h2 class="text-center mt-3">Best Result for <%= searchQuery %></h2>
+  <div class="row mb-3 text-center">
+    <%- include('./../templates/eachMovieCard.ejs', {movieToAdded : [movieToAdded], i:0, myratings}) %>
+  </div>
+</div>
 
 
-    <% } %>
-
-
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 
 </html>
