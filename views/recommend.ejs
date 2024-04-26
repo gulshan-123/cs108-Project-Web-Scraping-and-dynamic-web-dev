@@ -24,7 +24,7 @@
         return intersection / union
     }
 
-    function jacardSimilarity2(set1, set2) {
+    function jacardSimilarity2(set1, set2) { // For testing purpose only, Found that both give almost the same result, but since the previous is standard, we will be using that only. 
         let intersection = 0
         let union = 0
         for (let i = 0; i < set1.length; i++) {
@@ -58,11 +58,11 @@
 
             cast1 = movie.Cast
             cast2 = ratedMovie.Cast
-            castSimilarityScore = jacardSimilarity2(cast1, cast2)
+            castSimilarityScore = jacardSimilarity(cast1, cast2)
 
             director1 = movie.Director
             director2 = ratedMovie.Director
-            directorSimilarityScore = jacardSimilarity2(director1, director2)
+            directorSimilarityScore = jacardSimilarity(director1, director2)
 
             movieSimilarity += 0.2*(myratings[user.email][j].myrating - 5.5)*(2.5*directorSimilarityScore + 3*castSimilarityScore + 4.5* genreSimilarityScore)/30 //scaling it to 1
     }
@@ -88,7 +88,7 @@ recommendedMovies = recommendedMovies.filter((movie) => {
       </div>
       <div class="movie-container" style="margin: 20px;">
         <div class="row mb-3 text-center">
-          <% for(let i = 0; i < 6; i++) { %>
+          <% for(let i = 0; i < 10; i++) { %>
           <%- include('./../templates/cardForRatedRecom.ejs', {movieToAdded : recommendedMovies[i].movie, i, myratings, filename:'recommend.ejs'}) %>
           <% } %>
         </div>
