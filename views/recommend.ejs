@@ -64,7 +64,7 @@
             director2 = ratedMovie.Director
             directorSimilarityScore = jacardSimilarity(director1, director2)
 
-            movieSimilarity += 0.2*(myratings[user.email][j].myrating - 5.5)*(2.5*directorSimilarityScore + 3*castSimilarityScore + 4.5* genreSimilarityScore)/30 //scaling it to 1
+            movieSimilarity += 0.2*(myratings[user.email][j].myrating - 5.5)*(2.5*directorSimilarityScore + 3*castSimilarityScore + 4.5* genreSimilarityScore)/10 //scaling it to 1
     }
     movieSimilarity += movie.Rating[0]/20 
     // console.log(movie.Title, movieSimilarity)
