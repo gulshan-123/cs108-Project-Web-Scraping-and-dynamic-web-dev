@@ -105,11 +105,6 @@ app.post('/rate', (req, res) => {
     });
 });
 
-
-app.get('/movies', (req, res) => {  // usage in search.js
-    let movies = req.movies
-    res.json(movies);
-});
 app.get('/search', (req, res) => {
     let movies = req.movies;
     let searchQuery = req.query.q;
