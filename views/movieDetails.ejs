@@ -15,6 +15,8 @@
 
 <body>
   <%- include('./../templates/navbar.ejs', {loginDisplay:"block", signupDisplay:"block"}) %>
+
+
   <div class="otherThanNav">
     <div class="card mb-3 m-3 pl-2 rounded cardOfDetails">
       <div class="row no-gutters">
@@ -51,15 +53,23 @@
         </div>
       </div>
     </div>
+
+<%# -------------------------------------------------------------------------------------------------------------- %>
+<%# Positive Reviews Section %>
     <% let numPositiveReviews= Object.keys(positiveReviews).length %>
     <div class="reviews mt-4 m-3">
       <h2 class="text-center">Positive Reviews</h2>
+      <% if (numPositiveReviews === 0) { %>
+        <p class="text-center">No positive reviews available</p>
+        <% } %>
+
       <%# Initially only 3 reviews will be shown, to see all reviews, click on button %>
       <% for (let i = 0; i < numPositiveReviews; i++) { 
             let displayClass = i < 3 ? '' : 'd-none'; 
             let reviewText = positiveReviews[i].reviews;
             let shortText = reviewText.length > 100 ? reviewText.substring(0, 100) + '...' : reviewText;
             %>
+
 
       <figure class="<%= displayClass %>" id="positive-review-<%= i %>">
         <b><%= positiveReviews[i].title %></b>
@@ -77,10 +87,21 @@
       <% } %>
       <% } %>
     </div>
+
+    <% if (numPositiveReviews > 3) { %>
     <div class="text-center m-3"><button class="btn btn-primary" onclick="showAllReviews('positive', <%= numPositiveReviews %>)">Read All Positive Reviews</button></div>
+    <% } %>
+    
+    
+    
+    <%# -------------------------------------------------------------------------------------------------------------- %>
+    <%# Negative Reviews Section %>
     <% let numNegativeReviews = Object.keys(negativeReviews).length %>
     <div class="reviews mt-4 m-3">
       <h2 class="text-center">Negative Reviews</h2>
+      <% if (numNegativeReviews === 0) { %>
+      <p class="text-center">No negative reviews available</p>
+      <% } %>
       <% for (let i = 0; i < numNegativeReviews; i++) { 
         let displayClass = i < 3 ? '' : 'd-none';
         let reviewText = negativeReviews[i].reviews;
@@ -103,12 +124,22 @@
       <% } %>
       <% } %>
     </div>
+    <% if (numNegativeReviews > 3) { %>
     <div class="text-center m-3">
       <button class="btn btn-primary" onclick="showAllReviews('negative', <%= numNegativeReviews %>)">Read All Negative Reviews</button>
     </div>
+    <% } %>
 
+
+
+
+<%# -------------------------------------------------------------------------------------------------------------- %>
+<%# Critic Reviews Section %>
     <div class="critic-reviews mt-4 m-3">
       <h2 class="text-center">Critic Reviews</h2>
+      <% if (criticReviewItems.length === 0) { %>
+      <p class="text-center">No critic reviews available</p>
+      <% } %>
       <% for (let i = 0; i < criticReviewItems.length; i++) {
         let reviewer = criticReviewItems[i].reviewer || "Anonymous";
         let url = criticReviewItems[i].url ? `href="${criticReviewItems[i].url}"` : ''; 
@@ -130,6 +161,10 @@
       <% } %>
       <% } %>
     </div>
+
+
+
+<%# -------------------------------------------------------------------------------------------------------------- %>
     <%# Modals for reviews. It will popup when the rate button is clicked. %>
     <div class="modal" tabindex="-1" role="dialog" id="rateModal">
       <div class="modal-dialog" role="document">

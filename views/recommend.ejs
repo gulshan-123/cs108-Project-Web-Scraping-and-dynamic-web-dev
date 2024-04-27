@@ -131,10 +131,31 @@ console.log(genreCount)
 // recommendedMovies.sort((a, b) => b.similarity - a.similarity) //sort in descending order based on similarity
 // sort on the basis of similarity then on the basis of less number of movies less number of movies rated by the user`
 recommendedMovies.sort((a, b) => {
-    roundedA = Math.round(a.similarity * 100) / 100 // round to 2 decimal places
-    roundedB = Math.round(b.similarity * 100) / 100
+    roundedA = Math.round(a.similarity * 10) / 10 // round to 1 decimal places
+    roundedB = Math.round(b.similarity * 10) / 10
     if (roundedA === roundedB) {
-        return a.movie.numRatings - b.movie.numRatings
+      // console.log('here inside if rounded')
+      // sum of the number of movies rated by the user in the genres of the movie
+        sumA = -1
+        sumB = -1
+        for (let i = 0; i < a.movie.genre.length; i++) {
+            if (sumA < genreCount[a.movie.genre[i].toLowerCase()]){
+              // console.log('here inside if sumA')
+                sumA = genreCount[a.movie.genre[i].toLowerCase()]
+              }
+            }
+            console.log(sumA)
+        for (let i = 0; i < b.movie.genre.length; i++) {
+            if (sumB < genreCount[b.movie.genre[i].toLowerCase()]){
+                sumB = genreCount[b.movie.genre[i].toLowerCase()]
+            }
+        }
+        // console.log(sumA, sumB)
+        if (sumA === sumB) {
+            return parseFloat(b.movie.Rating[0]) - parseFloat(a.movie.Rating[0])
+            console.log('here')
+        }
+        return sumA - sumB // sort in ascending order of sum of the number of movies rated by the user in the genres of the movie
     }
     return b.similarity - a.similarity
 })
