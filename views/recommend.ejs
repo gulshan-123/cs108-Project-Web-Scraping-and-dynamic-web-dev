@@ -58,11 +58,45 @@ end if
 
   if (!myratings[user.email]) {
     %>
-    <div class="alert alert-info text-center" role="alert">
-      First Rate some movies.
-    </div>
+  <div class="alert alert-info text-center" role="alert">
+    First Rate some movies.
+  </div>
   <% } else { %>
   <%
+  var genre = ['action',
+ 'adventure',
+ 'animation',
+ 'biography',
+ 'comedy',
+ 'crime',
+ 'drama',
+ 'family',
+ 'fantasy',
+ 'film-noir',
+ 'history',
+ 'horror',
+ 'music',
+ 'musical',
+ 'mystery',
+ 'reality-tv',
+ 'romance',
+ 'sci-fi',
+ 'short',
+ 'sport',
+ 'thriller',
+ 'war',
+ 'western']
+//  calculate number of rated movies for each genre:
+var genreCount = {}
+for (let i = 0; i < genre.length; i++) {
+    genreCount[genre[i]] = 0
+}
+for (let i = 0; i < myratings[user.email].length; i++) {
+    for (let j = 0; j < myratings[user.email][i].movie.genre.length; j++) {
+        genreCount[myratings[user.email][i].movie.genre[j].toLowerCase()]++
+    }
+}
+console.log(genreCount)
     recommendedMovies = []
     for (let i = 0; i < movies.length; i++) {
         movie = movies[i]
@@ -94,8 +128,16 @@ end if
     recommendedMovies.push({movie: movie, similarity: movieSimilarity})
     
 }
-recommendedMovies.sort((a, b) => b.similarity - a.similarity) //sort in descending order based on similarity
-
+// recommendedMovies.sort((a, b) => b.similarity - a.similarity) //sort in descending order based on similarity
+// sort on the basis of similarity then on the basis of less number of movies less number of movies rated by the user`
+recommendedMovies.sort((a, b) => {
+    roundedA = Math.round(a.similarity * 100) / 100 // round to 2 decimal places
+    roundedB = Math.round(b.similarity * 100) / 100
+    if (roundedA === roundedB) {
+        return a.movie.numRatings - b.movie.numRatings
+    }
+    return b.similarity - a.similarity
+})
 recommendedMovies = recommendedMovies.filter((movie) => {
     return !myratings[user.email].some((ratedMovie) => ratedMovie.movie.Title === movie.movie.Title) // filter out movies the user has already rated by the user
 })
@@ -107,17 +149,21 @@ recommendedMovies = recommendedMovies.filter((movie) => {
         <div class="col-12">
           <h2 class="text-center">Recommended Movies</h2>
         </div>
-        </div>
       </div>
-      <div class="movie-container" style="margin: 20px;">
-        <div class="row mb-3 text-center">
-          <% for(let i = 0; i < 10; i++) { %>
-          <%- include('./../templates/cardForRatedRecom.ejs', {movieToAdded : recommendedMovies[i].movie, i, myratings, filename:'recommend.ejs'}) %>
-          <% } %>
-        </div>
+    </div>
+    <div class="movie-container" style="margin: 20px;">
+      <div class="row mb-3 text-center">
+        <% for(let i = 0; i < 10; i++) { %>
+          <% // print the imilarity score of the movie 
+          console.log(recommendedMovies[i].similarity)
+          %>
+
+        <%- include('./../templates/cardForRatedRecom.ejs', {movieToAdded : recommendedMovies[i].movie, i, myratings, filename:'recommend.ejs'}) %>
+        <% } %>
       </div>
+    </div>
     <% } %>
-  
+
 </body>
 
 </html>
