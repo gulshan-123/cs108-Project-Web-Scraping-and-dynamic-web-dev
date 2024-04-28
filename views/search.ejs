@@ -19,7 +19,7 @@
         return bigrams;
     } 
     
-    function jaccard_similarity(bigrams1, bigrams2) {
+    function jaccard_similarity(bigrams1, bigrams2) { //standard definition of jaccard similarity
         const set1 = new Set(bigrams1);
         const set2 = new Set(bigrams2);
         const intersection = new Set([...set1].filter(x => set2.has(x)));
@@ -54,7 +54,18 @@
 
     return correctedQuery.join(' ');
 }
-function findMovie(correctedQuery) {
+
+function movieContainsWord(correctedQuery) { //find movie if corrected query is in the movie title
+    let movieList = [];
+    // if the corrected query is inside the movie title, return that movie, even if partially in word
+    for (let i = 0; i < movies.length; i++) {
+    if (movies[i].Title.toLowerCase().includes(correctedQuery.toLowerCase())) {
+        // add if the movie is not already in the list
+        if (!movieList.includes(movies[i])) {
+            movieList.push(movies[i]);
+        }
+    }
+}
     let queryWords = correctedQuery.toLowerCase().split(' ');
 
     let bestMatch = null;
@@ -66,9 +77,24 @@ function findMovie(correctedQuery) {
         let matchingWords = queryWords.filter(word => titleWords.includes(word));
 
         if (matchingWords.length / queryWords.length >= 0.8) {
-            return movies[i];
+            // add if the movie is not already in the list
+            if (!movieList.includes(movies[i])) {
+                movieList.push(movies[i]);
+            }
         }
+    }
+    return movieList;
+}
 
+
+function findMovieJacard(correctedQuery) { //find the best match for the correctedquery using jaccard similarity
+
+    let queryWords = correctedQuery.toLowerCase().split(' ');
+    let bestMatch = null;
+    let maxSimilarity = 0;
+
+    for (let i = 0; i < movies.length; i++) {
+        let titleWords = movies[i].Title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').split(' ');
         let bigramQueryWords = queryWords.map(word => bigramize(word));
         let bigramTitleWords = titleWords.map(word => bigramize(word));
 
@@ -100,7 +126,18 @@ function findMovie(correctedQuery) {
 <% 
 // checking
 let correctedQuery = correctQuery(searchQuery);
-let movieToAdded = findMovie(correctedQuery);
+// let movieToAdded1 = findMovieJacard(searchQuery);
+// let movieToAdded2 = findMovieJacard(correctedQuery); //if the search query is not in the movie title, then search for the corrected query
+movieToadded= movieContainsWord(searchQuery);
+movieToAdded1 = movieContainsWord(correctedQuery);
+// Take union
+movieToAdded2 = movieToAdded1.concat(movieToadded.filter(item => !movieToAdded1.includes(item)));
+movie3=findMovieJacard(correctedQuery);
+// add movie to the list if it is not already in the list
+if (!movieToAdded2.includes(movie3)) {
+    movieToAdded2.push(movie3);
+}
+
 // console.log(correctedQuery);
 // console.log(movieToAdded.Image['280w']);
 %>
@@ -108,7 +145,8 @@ let movieToAdded = findMovie(correctedQuery);
 <div class="movie-container" style="margin: 20px;">
   <h2 class="text-center mt-3">Best Result for <%= searchQuery %></h2>
   <div class="row mb-3 text-center">
-    <%- include('./../templates/eachMovieCard.ejs', {movieToAdded : [movieToAdded], i:0, myratings}) %>
+    <% for (let i = 0; i < movieToAdded2.length; i++) { %>
+      <%- include('./../templates/cardForRatedRecom.ejs', {movieToAdded: movieToAdded2[i], i, myratings, filename: 'search.ejs'}) %> <% } %>
   </div>
 </div>
 

@@ -62,30 +62,7 @@ end if
     First Rate some movies.
   </div>
   <% } else { %>
-  <%
-  var genre = ['action',
- 'adventure',
- 'animation',
- 'biography',
- 'comedy',
- 'crime',
- 'drama',
- 'family',
- 'fantasy',
- 'film-noir',
- 'history',
- 'horror',
- 'music',
- 'musical',
- 'mystery',
- 'reality-tv',
- 'romance',
- 'sci-fi',
- 'short',
- 'sport',
- 'thriller',
- 'war',
- 'western']
+  <% var genre = ['action','adventure','animation','biography','comedy','crime','drama','family','fantasy','film-noir','history','horror','music','musical','mystery','reality-tv','romance','sci-fi','short','sport','thriller','war','western']
 //  calculate number of rated movies for each genre:
 var genreCount = {}
 for (let i = 0; i < genre.length; i++) {
@@ -129,7 +106,8 @@ console.log(genreCount)
     
 }
 // recommendedMovies.sort((a, b) => b.similarity - a.similarity) //sort in descending order based on similarity
-// sort on the basis of similarity then on the basis of less number of movies less number of movies rated by the user`
+// sort on the basis of similarity,
+// if similarity is same; First calculate the most watched genre of the movie, then sort on the basis of less value of the most watched genre
 recommendedMovies.sort((a, b) => {
     roundedA = Math.round(a.similarity * 10) / 10 // round to 1 decimal places
     roundedB = Math.round(b.similarity * 10) / 10
